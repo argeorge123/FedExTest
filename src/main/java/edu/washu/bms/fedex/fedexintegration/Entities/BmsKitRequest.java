@@ -86,7 +86,7 @@ public class BmsKitRequest {
     @Column(name = "DATE_MODIFIED")
     private Timestamp modifiedTimeStamp;
     @Column(name = "SHIPPING_OPTION")
-    private String shippingOption
+    private String shippingOption;
     @Column(name = "SHIPPING_LABEL")
-    private String shippingLabel
+    private String shippingLabel;
 }
