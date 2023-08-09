@@ -17,15 +17,15 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 @SpringBootApplication
 @EnableJpaRepositories
 @EnableScheduling
-public class KitIntegrationApplication extends SpringBootServletInitializer {
+public class FedexIntegrationApplication extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder){
-		return builder.sources(KitIntegrationApplication.class);
+		return builder.sources(FedexIntegrationApplication.class);
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(KitIntegrationApplication.class, args);
+		SpringApplication.run(FedexIntegrationApplication.class, args);
 	}
 
 	@Bean
