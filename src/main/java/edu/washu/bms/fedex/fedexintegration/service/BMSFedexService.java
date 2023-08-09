@@ -1,9 +1,9 @@
 package edu.washu.bms.fedex.fedexintegration.service;
 
-import edu.washu.bms.kit.kitintegration.Entities.BmsKitRequest;
-import edu.washu.bms.kit.kitintegration.controller.BMSFedexController;
-import edu.washu.bms.kit.kitintegration.models.*;
-import edu.washu.bms.kit.kitintegration.repository.*;
+import edu.washu.bms.fedex.fedexintegration.Entities.BmsKitRequest;
+import edu.washu.bms.fedex.fedexintegration.controller.BMSFedexController;
+import edu.washu.bms.fedex.fedexintegration.models.*;
+import edu.washu.bms.fedex.fedexintegration.repository.*;
 import org.hibernate.query.criteria.internal.expression.ConcatExpression;
 import org.json.simple.JSONArray;
 import org.slf4j.Logger;
