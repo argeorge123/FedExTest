@@ -142,7 +142,7 @@ public class BMSFedexService {
     // Gets all Open Requests in a time interval from BioMS DB
     private List<BmsKitRequest> findAllOPenKitRequests(){
         logger.info("Finding all WashU In process kit requests to process ");
-      List<BmsKitRequest> allOpenRequests= bmsFedexRepository.findAllOpenRequests(81,"In Process", getLastRunTimeFwd());
+      List<BmsKitRequest> allOpenRequests= bmsFedexRepository.findAllOpenRequests(81,"In Process");
       logger.info("Number of WashU In process kit = {}",allOpenRequests.size());
       return allOpenRequests;
     }
