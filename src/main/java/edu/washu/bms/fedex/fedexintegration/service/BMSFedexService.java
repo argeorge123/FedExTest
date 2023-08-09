@@ -54,7 +54,7 @@ import java.util.TimeZone;
 @Configuration
 public class BMSFedexService {
 
-    private static final Logger logger = LoggerFactory.getLogger(BMSKitRequestController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BMSFedexController.class);
 
     @Autowired
     private BMSFedexRepository bmsFedexRepository;
@@ -122,7 +122,7 @@ public class BMSFedexService {
     }
 
     private List<BmsKitRequest> findKitRequest(){
-        List<BmsKitRequest> nBmsKitRequest= bmsKitRequestRepository.findKitRequest(Long.valueOf(biomsKitRequestID));
+        List<BmsKitRequest> nBmsKitRequest= bmsFedexRepository.findKitRequest(Long.valueOf(biomsKitRequestID));
         return nBmsKitRequest;
     }
 
@@ -142,7 +142,7 @@ public class BMSFedexService {
     // Gets all Open Requests in a time interval from BioMS DB
     private List<BmsKitRequest> findAllOPenKitRequests(){
         logger.info("Finding all WashU In process kit requests to process ");
-      List<BmsKitRequest> allOpenRequests= bmsKitRequestRepository.findAllOpenRequests(81,"In Process", getLastRunTimeFwd());
+      List<BmsKitRequest> allOpenRequests= bmsFedexRepository.findAllOpenRequests(81,"In Process", getLastRunTimeFwd());
       logger.info("Number of WashU In process kit = {}",allOpenRequests.size());
       return allOpenRequests;
     }
@@ -206,11 +206,5 @@ public class BMSFedexService {
         return siteRepository.findSiteById(siteId);
     }
 
-    // Find Kit Name
-    private String getKitType(long kitId) {
-        logger.debug("Get Kit name by id = {}",kitId);
-        logger.info(bmsKitRepository.findBmsKitById(kitId)+"----------->external kit type id");
-        return bmsKitRepository.findBmsKitById(kitId);
 
-    }
 }
