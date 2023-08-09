@@ -13,7 +13,7 @@
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>kit-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>fedex-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>500MB</maxFileSize>
         </rollingPolicy>
     </appender>
