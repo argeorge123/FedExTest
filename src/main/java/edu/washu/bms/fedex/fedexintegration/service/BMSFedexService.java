@@ -120,7 +120,7 @@ public class BMSKitRequestService {
                 logger.info("entered entity");
             }
             else {
-                logger.info("success")
+                logger.info("success");
             }
         }
     }
