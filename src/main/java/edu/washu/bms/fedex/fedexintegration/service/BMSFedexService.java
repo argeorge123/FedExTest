@@ -57,13 +57,9 @@ public class BMSFedexService {
     private static final Logger logger = LoggerFactory.getLogger(BMSKitRequestController.class);
 
     @Autowired
-    private BMSKitRequestRepository bmsKitRequestRepository;
+    private BMSKitRequestRepository bmsFedexRepository;
     @Autowired
     private MayoForSyncRepository mayoForSyncRepository;
-    @Autowired
-    private MayoRevSyncRepository mayoRevSyncRepository;
-    @Autowired
-    private BmsKitRepository bmsKitRepository;
     @Autowired
     private SiteRepository siteRepository;
     @Autowired
@@ -205,32 +201,7 @@ public class BMSFedexService {
     }
 
 
-    // Set Shipping Details
-    private ShippingAddress setShippingAddress(BmsKitRequest bmsKitRequest) {
-        ShippingAddress shippingAddress = new ShippingAddress();
-        shippingAddress.setAddress1(bmsKitRequest.getAddress1());
-        shippingAddress.setAddress2(bmsKitRequest.getAddress2());
-        shippingAddress.setAddress3(bmsKitRequest.getAddress3());
-        shippingAddress.setCity(bmsKitRequest.getCity());
-        shippingAddress.setState(bmsKitRequest.getState());
-        shippingAddress.setZipcode(bmsKitRequest.getPostalCode());
-        shippingAddress.setCountry(bmsKitRequest.getCountry());
-        return shippingAddress;
-    }
-
-    // Set Requester Details
-    private Requester setRequester(BmsKitRequest bmsKitRequest) {
-        Requester requester = new Requester();
-        requester.setFirstName(bmsKitRequest.getReqFirstName());
-        requester.setLastName(bmsKitRequest.getReqLastName());
-        requester.setEmail(bmsKitRequest.getRequesterEmail());
-        requester.setPhone(bmsKitRequest.getRequesterPhoneNumber());
-        requester.setComments(bmsKitRequest.getRequesterComments());
-        requester.setSite(findSiteByID(bmsKitRequest.getRequestorSiteId()));
-        return requester;
-    }
-
-    // Find Site Name
+       // Find Site Name
     private String findSiteByID(Long siteId) {
         return siteRepository.findSiteById(siteId);
     }

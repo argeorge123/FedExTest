@@ -1,6 +1,6 @@
 package edu.washu.bms.fedex.fedexintegration.repository;
 
-import edu.washu.bms.kit.kitintegration.Entities.BmsKitRequest;
+import edu.washu.bms.fedex.fedexintegration.Entities.BmsKitRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 
 @Repository
-public interface BMSKitRequestRepository extends JpaRepository<BmsKitRequest, Long> {
+public interface BMSFedexRepository extends JpaRepository<BmsKitRequest, Long> {
 //ALL BIOMS DATABASE HANDELING FOR READ AND UPDATE ARE DONE HERE
 //Finding all open requests for process.
     @Query("select c from BmsKitRequest c where c.repository= :repository and c.kitRequestStatus= :kit_request_status and c.createdTimeStamp > :lastRunTime")
