@@ -1,7 +1,7 @@
 package edu.washu.bms.fedex.fedexintegration.repository;
 
-import edu.washu.bms.kit.kitintegration.Entities.BmsKitRequest;
-import edu.washu.bms.kit.kitintegration.Entities.Site;
+import edu.washu.bms.fedex.fedexintegration.Entities.BmsKitRequest;
+import edu.washu.bms.fedex.fedexintegration.Entities.Site;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -57,7 +57,7 @@ public class BMSFedexService {
     private static final Logger logger = LoggerFactory.getLogger(BMSKitRequestController.class);
 
     @Autowired
-    private BMSKitRequestRepository bmsFedexRepository;
+    private BMSFedexRepository bmsFedexRepository;
     @Autowired
     private MayoForSyncRepository mayoForSyncRepository;
     @Autowired

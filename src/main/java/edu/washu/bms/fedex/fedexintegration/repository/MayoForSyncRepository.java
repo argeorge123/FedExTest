@@ -1,6 +1,6 @@
 package edu.washu.bms.fedex.fedexintegration.repository;
 
-import edu.washu.bms.kit.kitintegration.Entities.MayoForSyncDetails;
+import edu.washu.bms.fedex.fedexintegration.Entities.MayoForSyncDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
