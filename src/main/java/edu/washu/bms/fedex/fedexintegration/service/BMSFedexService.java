@@ -52,7 +52,7 @@ import java.util.TimeZone;
 
 @Service
 @Configuration
-public class BMSKitRequestService {
+public class BMSFedexService {
 
     private static final Logger logger = LoggerFactory.getLogger(BMSKitRequestController.class);
 
