@@ -111,7 +111,7 @@ public class BMSFedexService {
                //This is in a loop and it processes all the requests one by one inside this for loop.
         for(BmsKitRequest bmsKitRequest: bmsKitRequests) {
 
-            HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(),getHttpHeaders());
+            HttpEntity<String> entity = new HttpEntity<String>(getHttpHeaders());
             if(entity== null){
                 logger.info("entered entity");
             }
