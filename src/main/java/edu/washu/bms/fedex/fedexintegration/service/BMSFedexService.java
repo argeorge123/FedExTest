@@ -59,7 +59,7 @@ public class BMSFedexService {
     @Autowired
     private BMSFedexRepository bmsFedexRepository;
     @Autowired
-    private MayoForSyncRepository mayoForSyncRepository;
+    private FedexForSyncRepository fedexForSyncRepository;
     @Autowired
     private SiteRepository siteRepository;
     @Autowired
@@ -188,7 +188,7 @@ public class BMSFedexService {
 
     // Gets Last run time Stamp from Mayo Sync table and parse it to date.
     private Timestamp getLastRunTimeFwd() {
-        Long lastRunTimestamp = mayoForSyncRepository.getLastRunTimestamp().getLastRunTimeStamp();
+        Long lastRunTimestamp = fedexForSyncRepository.getLastRunTimestamp().getLastRunTimeStamp();
         java.sql.Timestamp one = new java.sql.Timestamp(lastRunTimestamp);
         logger.info("forward sync last run time stamp = {}", Instant.ofEpochMilli(lastRunTimestamp).atZone(ZoneId.systemDefault()).toLocalDate());
         return one;
@@ -197,7 +197,7 @@ public class BMSFedexService {
      // Updates Last run time Stamp in Mayo Sync table forward sync.
      private void updateLastRunTimeFwd(long dbEndDate) {
         logger.info("forward sync updated last run time stamp = {}",dbEndDate);
-        mayoForSyncRepository.updateLastRunTimestamp(dbEndDate);
+        fedexForSyncRepository.updateLastRunTimestamp(dbEndDate);
     }
 
 
