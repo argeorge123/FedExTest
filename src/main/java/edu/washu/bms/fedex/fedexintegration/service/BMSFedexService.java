@@ -120,15 +120,15 @@ public class BMSFedexService {
             jsonObjectRequestedShipment.put("shipper",bmsfedexModel.getRequestedShipment().getShipper());
             jsonObject.put("requestedShipment",jsonObjectRequestedShipment);
             JSONObject jsonObjectShipper = new JSONObject();
-            jsonObjectShipper.put("streetLines",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines());
-            jsonObjectShipper.put("city",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCity());
-            jsonObjectShipper.put("postalCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getPostalCode());
-            jsonObjectShipper.put("countryCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCountryCode());
+            jsonObjectShipper.put("streetLines",bmsfedexModel.getRequestedShipment().getRepoAddress().getStreetLines());
+            jsonObjectShipper.put("city",bmsfedexModel.getRequestedShipment().getRepoAddress().getCity());
+            jsonObjectShipper.put("postalCode",bmsfedexModel.getRequestedShipment().getRepoAddress().getPostalCode());
+            jsonObjectShipper.put("countryCode",bmsfedexModel.getRequestedShipment().getRepoAddress().getCountryCode());
             jsonObject.put("address",jsonObjectShipper);
-            jsonObjectShipper.put("personName",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPersonName());
-            jsonObjectShipper.put("emailAddress",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getEmailAddress());
-            jsonObjectShipper.put("phoneNumber",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPhoneNumber());
-            jsonObjectShipper.put("companyName",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getCompanyName());
+            jsonObjectShipper.put("personName",bmsfedexModel.getRequestedShipment().getRepoContact().getPersonName());
+            jsonObjectShipper.put("emailAddress",bmsfedexModel.getRequestedShipment().getRepoContact().getEmailAddress());
+            jsonObjectShipper.put("phoneNumber",bmsfedexModel.getRequestedShipment().getRepoContact().getPhoneNumber());
+            jsonObjectShipper.put("companyName",bmsfedexModel.getRequestedShipment().getRepoContact().getCompanyName());
             jsonObject.put("contact",jsonObjectShipper);
 
 
