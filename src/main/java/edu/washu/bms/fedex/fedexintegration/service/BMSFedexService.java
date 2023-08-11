@@ -151,17 +151,17 @@ public class BMSFedexService {
             jsonObjectContact.put("phoneNumber",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getPhoneNumber());
             jsonObjectContact.put("companyName",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getCompanyName());
 
-            jsonObjectWeight.put("units",bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems().setWeight().setUnits());
-            jsonObjectWeight.put("value",bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems().setWeight().setValue());
+            jsonObjectWeight.put("units",bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems().getWeight().getUnits());
+            jsonObjectWeight.put("value",bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems().getWeight().getValue());
 
             jsonObjectShipper.put("address", jsonRObjectAddress);
             jsonObjectShipper.put("contact", jsonRObjectContact);
             jsonObjectRecipients.put("address", jsonObjectAddress);
             jsonObjectRecipients.put("contact", jsonObjectContact);
             jsonObjectRequestedPackageLineItems.put("weight",jsonObjectWeight);
-            jsonObjectShippingChargesPayment.put("paymentType",bmsfedexModel.getRequestedShipment().getShippingChargesPayment().setPaymentType());
-            jsonObjectLabelSpecification.put("labelStockType",bmsfedexModel.getRequestedShipment().getLabelSpecification().setLabelStockType());
-            jsonObjectLabelSpecification.put("imageType",bmsfedexModel.getRequestedShipment().getLabelSpecification().setImageType());
+            jsonObjectShippingChargesPayment.put("paymentType",bmsfedexModel.getRequestedShipment().getShippingChargesPayment().getPaymentType());
+            jsonObjectLabelSpecification.put("labelStockType",bmsfedexModel.getRequestedShipment().getLabelSpecification().getLabelStockType());
+            jsonObjectLabelSpecification.put("imageType",bmsfedexModel.getRequestedShipment().getLabelSpecification().getImageType());
             jsonObjectRequestedShipment.put("shipper", jsonObjectShipper);
             jsonObjectRequestedShipment.put("recipients", jsonObjectRecipients);
             jsonObjectRequestedShipment.put("pickupType", bmsfedexModel.getRequestedShipment().getPickupType());
