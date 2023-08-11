@@ -127,8 +127,6 @@ public class BMSFedexService {
             JSONObject jsonObjectLabelSpecification = new JSONObject();
             JSONObject jsonObjectRequestedPackageLineItems = new JSONObject();
             JSONObject jsonObjectWeight = new JSONObject();
-            JSONObject jsonObjectLabelResponseOptions = new JSONObject();
-
 
 
             jsonRObjectAddress.put("streetLines",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines());
@@ -170,9 +168,9 @@ public class BMSFedexService {
             jsonObjectRequestedShipment.put("shippingChargesPayment", jsonObjectShippingChargesPayment);
             jsonObjectRequestedShipment.put("labelSpecification",jsonObjectLabelSpecification);
             jsonObjectRequestedShipment.put("requestedPackageLineItems",jsonObjectRequestedPackageLineItems);
-            jsonObject.put("requestedShipment", bmsfedexModel.getLabelResponseOptions());
+            jsonObject.put("requestedShipment", jsonObjectRequestedShipment);
 
-            jsonObject.put("labelResponseOptions", jsonObjectLabelResponseOptions);
+            jsonObject.put("labelResponseOptions", bmsfedexModel.getLabelResponseOptions());
 
             logger.info("Payload for fedex------------->"+jsonObject.toString());
 
