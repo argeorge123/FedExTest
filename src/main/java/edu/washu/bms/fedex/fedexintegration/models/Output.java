@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Getter
 @Setter
 @ResponseBody
-public class RequestStatus {
-    private String requestID;
-    private String extRequestID;
-    private String status;
-    private String trackingID;
+public class Output {
+    private List<TransactionShipments> transactionShipments;
 }

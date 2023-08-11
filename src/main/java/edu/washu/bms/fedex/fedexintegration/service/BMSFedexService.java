@@ -100,16 +100,42 @@ public class BMSFedexService {
 
 
     private void prepareAndCreate(List<BmsKitRequest> bmsKitRequests,boolean isPriority) {
-        logger.info("In Prepare and Create Request-->");
+        logger.info("In Prepare and Create fedex Request-->");
         long endDate = Timestamp.valueOf(LocalDateTime.now()).getTime();
         Calendar cal = Calendar.getInstance();
         Date currentTime = cal.getTime();
         DateFormat dateFormat = new SimpleDateFormat("HH");
         String formattedDate= dateFormat.format(currentTime);
-        long compareTime = Integer.parseInt(formattedDate);
-        logger.info("---------->compareTime--------"+compareTime);
-               //This is in a loop and it processes all the requests one by one inside this for loop.
+        //This is in a loop and it processes all the requests one by one inside this for loop.
         for(BmsKitRequest bmsKitRequest: bmsKitRequests) {
+            BmsfedexModel bmsfedexModel = new BmsfedexModel();
+            bmsfedexModel.setRequestedShipment(setRequestedShipment(bmsKitRequest));
+            bmsfedexModel.setLabelResponseOptions("URL_ONLY");
+            bmsfedexModel.setAccountNumber(setAccountNumber(bmsKitRequest));
+
+            HttpEntity<BmsfedexModel> request = new HttpEntity<>(bmsfedexModel);
+
+            JSONObject jsonObject= new JSONObject();
+            JSONObject jsonObjectRequestedShipment= new JSONObject();
+            jsonObjectRequestedShipment.put("shipper",bmsfedexModel.getRequestedShipment().getShipper());
+            jsonObject.put("requestedShipment",jsonObjectRequestedShipment);
+            JSONObject jsonObjectShipper = new JSONObject();
+            jsonObjectShipper.put("streetLines",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines());
+            jsonObjectShipper.put("city",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCity());
+            jsonObjectShipper.put("postalCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getPostalCode());
+            jsonObjectShipper.put("countryCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCountryCode());
+            jsonObject.put("address",jsonObjectShipper);
+            jsonObjectShipper.put("personName",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPersonName());
+            jsonObjectShipper.put("emailAddress",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getEmailAddress());
+            jsonObjectShipper.put("phoneNumber",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPhoneNumber());
+            jsonObjectShipper.put("companyName",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getCompanyName());
+            jsonObject.put("contact",jsonObjectShipper);
+
+
+            logger.info("Payload for fedex------------->"+jsonObject.toString());
+
+
+
 
             HttpEntity<String> entity = new HttpEntity<String>(getHttpHeaders());
             if(entity== null){
@@ -206,5 +232,138 @@ public class BMSFedexService {
         return siteRepository.findSiteById(siteId);
     }
 
+    private Address setAddress(BmsKitRequest bmsKitRequest) {
+        Address address = new Address();
+        String country = bmsKitRequest.getCountry();
+        address.setStreetLines(bmsKitRequest.getAddress1());
+        address.setCity(bmsKitRequest.getCity());
+        address.setpostalCode(bmsKitRequest.getPostalCode())
+        if("United States".equalsIgnoreCase(country)){
+            address.setCountryCode("US");
+        }else if ("Canada".equalsIgnoreCase(country)) {
+            address.setCountryCode("CA");
+        }
+        return address;
+    }
 
+        private Address setRepoAddress(BmsKitRequest bmsKitRequest) {
+            Address address = new Address();
+            address.setStreetLines("425 S Euclid, Room 5120,");
+            address.setCity("St Louis");
+            address.setpostalCode("63110");
+            address.setCountryCode("US");
+            return address;
+            }
+
+    private Contact setContact(BmsKitRequest bmsKitRequest) {
+        Contact contact = new Contact();
+        String fullName = bmsKitRequest.getReqFirstName() + " " + bmsKitRequest.getReqLastName()
+        contact.setPersonName(fullName);
+        contact.setEmailAddress(bmsKitRequest.getRequesterEmail());
+        contact.setPhoneNumber(bmsKitRequest.getRequesterPhoneNumber());
+        contact.setCompanyName(findSiteByID(bmsKitRequest.getRequestorSiteId()));
+        return contact;
+    }
+
+        private Contact setRepoContact(BmsKitRequest bmsKitRequest) {
+            Contact contact = new Contact();
+            contact.setPersonName("Laura Granderson");
+            contact.setEmailAddress("tbank@wudosis.wustl.edu");
+            contact.setPhoneNumber("(314)454-7615");
+            contact.setCompanyName("Alliance Biorepository at Washington University in St. Louis");
+            return contact;
+        }
+
+        private ServiceType setServiceType(BmsKitRequest bmsKitRequest){
+            ServiceType serviceType = new ServiceType();
+            String shippingOption = bmsKitRequest.getShippingOption();
+            if ("United States".equalsIgnoreCase(country)) {
+                if("Regular (within 10 business days from today)".equalsIgnoreCase(shippingOption)){
+                    address.setCountryCode("US");
+                }
+            }
+            else if ("Canada".equalsIgnoreCase(country)) {
+                address.setCountryCode("CA");
+            }
+
+        }
+
+
+     private ShippingChargesPayment setShippingChargesPayment(BmsKitRequest bmsKitRequest){
+         ShippingChargesPayment shippingChargesPayment = new ShippingChargesPayment();
+         shippingChargesPayment.setPaymentType("SENDER");
+     }
+
+
+     private LabelSpecification setLabelSpecification(BmsKitRequest bmsKitRequest){
+         LabelSpecification labelSpecification = new LabelSpecification();
+         labelSpecification.setlabelStockType("PAPER_4X6");
+         labelSpecification.setimageType("PDF");
+     }
+
+     private RequestedPackageLineItems setrequestedPackageLineItems(BmsKitRequest bmsKitRequest){
+         RequestedPackageLineItems requestedPackageLineItems = new RequestedPackageLineItems();
+         requestedPackageLineItems.setWeight(setWeight(bmsKitRequest));
+     }
+
+     private Weight setWeight(BmsKitRequest bmsKitRequest){
+         Weight weight = new Weight();
+         weight.setUnits("LB");
+         weight.setValue("3");
+     }
+
+    private RequestedShipment setRequestedShipment(BmsKitRequest bmsKitRequest) {
+        RequestedShipment requestedShipment = new RequestedShipment();
+        Shipper shipper = new Shipper();
+        Recipients recipients = new Recipients();
+        PickupType pickupType = new PickupType();
+        ServiceType serviceType = new ServiceType();
+        PackagingType packagingType = new PackagingType();
+        ShippingChargesPayment shippingChargesPayment = new ShippingChargesPayment();
+        LabelSpecification labelSpecification = new LabelSpecification();
+        RequestedPackageLineItems requestedPackageLineItems = new RequestedPackageLineItems();
+
+        // Setting shipper(repo) address and contact
+        shipper.setAddress(setRepoAddress(bmsKitRequest));
+        shipper.setContact(setRepoContact(bmsKitRequest));
+
+        //Setting recipients(collection-site) address an contact
+        recipients.setAddress(setAddress(bmsKitRequest));
+        recipients.setContact(setContact(bmsKitRequest));
+
+        //Setting pickup type
+        requestedShipment.setPickupType("USE_SCHEDULED_PICKUP");
+
+        //Setting service type
+        String shippingOption = bmsKitRequest.getShippingOption();
+        String country = bmsKitRequest.getCountry();
+        if ("United States".equalsIgnoreCase(country)) {
+            if ("Regular (within 10 business days from today)".equalsIgnoreCase(shippingOption)) {
+                requestedShipment.setServiceType("FEDEX_EXPRESS_SAVER");
+            } else if ("Expedited via FedEx (within 1-2 business days from today)".equalsIgnoreCase(shippingOption)) {
+                requestedShipment.setServiceType("PRIORITY_OVERNIGHT");
+            }
+        } else if ("Canada".equalsIgnoreCase(country)) {
+            requestedShipment.setServiceType("FEDEX_INTERNATIONAL_PRIORITY");
+        }
+
+        // Setting packaging type
+        requestedShipment.setPackagingType("YOUR_PACKAGING");
+
+        //Setting Shipping Charges Payment
+        requestedShipment.setShippingChargesPayment(setShippingChargesPayment(bmsKitRequest));
+
+        //Setting label specification
+        requestedShipment.setLabelSpecification(setLabelSpecification(bmsKitRequest));
+
+        //Setting the weight of the package
+        requestedShipment.setrequestedPackageLineItems(setrequestedPackageLineItems(bmsKitRequest));
+
+    }
+
+
+    private AccountNumber setAccountNumber(BmsKitRequest bmsKitRequest){
+        AccountNumber accountNumber = new AccountNumber();
+        accountNumber.setValue("740561073");
+    }
 }

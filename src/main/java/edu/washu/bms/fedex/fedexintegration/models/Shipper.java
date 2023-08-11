@@ -4,10 +4,10 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Data
 @Getter
 @Setter
-public class BmsKitCreateResponse {
-    private Meta meta;
-    private RequestStatus requestStatus;
+@Data
+public class Shipper {
+    private Address address;
+    private Contact contact;
 }

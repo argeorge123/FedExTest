@@ -5,15 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Data
 @ResponseBody
-public class Notifications {
-    private RequestStatus requestStatus;
-    private String statusChangeDate;
-    private String denialReason;
-    private String comments;
+
+public class ShipmentDocuments {
+    private String trackingNumber;
+    private Sring url;
 }
