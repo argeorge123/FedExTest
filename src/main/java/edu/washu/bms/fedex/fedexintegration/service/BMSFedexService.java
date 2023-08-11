@@ -120,6 +120,9 @@ public class BMSFedexService {
             JSONObject jsonObjectShipper = new JSONObject();
             JSONObject jsonRObjectAddress = new JSONObject();
             JSONObject jsonRObjectContact = new JSONObject();
+            JSONObject jsonObjectRecipients = new JSONObject();
+            JSONObject jsonObjectAddress = new JSONObject();
+            JSONObject jsonObjectContact = new JSONObject();
 
             jsonRObjectAddress.put("streetLines",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines());
             jsonRObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCity());
@@ -131,9 +134,22 @@ public class BMSFedexService {
             jsonRObjectContact.put("phoneNumber",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPhoneNumber());
             jsonRObjectContact.put("companyName",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getCompanyName());
 
+            jsonObjectAddress.put("streetLines",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getStreetLines());
+            jsonObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getCity());
+            jsonObjectAddress.put("postalCode",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getPostalCode());
+            jsonObjectAddress.put("countryCode",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getCountryCode());
+
+            jsonObjectContact.put("personName",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getPersonName());
+            jsonObjectContact.put("emailAddress",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getEmailAddress());
+            jsonObjectContact.put("phoneNumber",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getPhoneNumber());
+            jsonObjectContact.put("companyName",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getCompanyName());
+
             jsonObjectShipper.put("address", jsonRObjectAddress);
             jsonObjectShipper.put("contact", jsonRObjectContact);
+            jsonObjectRecipients.put("address", jsonObjectAddress);
+            jsonObjectRecipients.put("contact", jsonObjectContact);
             jsonObjectRequestedShipment.put("shipper", jsonObjectShipper);
+            jsonObjectRequestedShipment.put("shipper", jsonObjectRecipients);
             jsonObject.put("requestedShipment", jsonObjectRequestedShipment);
 
             logger.info("Payload for fedex------------->"+jsonObject.toString());
