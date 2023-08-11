@@ -237,7 +237,7 @@ public class BMSFedexService {
         String country = bmsKitRequest.getCountry();
         address.setStreetLines(bmsKitRequest.getAddress1());
         address.setCity(bmsKitRequest.getCity());
-        address.setpostalCode(bmsKitRequest.getPostalCode());
+        address.setPostalCode(bmsKitRequest.getPostalCode());
         if("United States".equalsIgnoreCase(country)){
             address.setCountryCode("US");
         }else if ("Canada".equalsIgnoreCase(country)) {
@@ -246,11 +246,11 @@ public class BMSFedexService {
         return address;
     }
 
-        private Address setRepoAddress(BmsKitRequest bmsKitRequest) {
-            Address address = new Address();
+        private RepoAddress setRepoAddress(BmsKitRequest bmsKitRequest) {
+            RepoAddress address = new RepoAddress();
             address.setStreetLines("425 S Euclid, Room 5120,");
             address.setCity("St Louis");
-            address.setpostalCode("63110");
+            address.setPostalCode("63110");
             address.setCountryCode("US");
             return address;
             }
@@ -265,8 +265,8 @@ public class BMSFedexService {
         return contact;
     }
 
-        private Contact setRepoContact(BmsKitRequest bmsKitRequest) {
-            Contact contact = new Contact();
+        private RepoContact setRepoContact(BmsKitRequest bmsKitRequest) {
+            RepoContact contact = new RepoContact();
             contact.setPersonName("Laura Granderson");
             contact.setEmailAddress("tbank@wudosis.wustl.edu");
             contact.setPhoneNumber("(314)454-7615");
@@ -283,8 +283,8 @@ public class BMSFedexService {
 
      private LabelSpecification setLabelSpecification(BmsKitRequest bmsKitRequest){
          LabelSpecification labelSpecification = new LabelSpecification();
-         labelSpecification.setlabelStockType("PAPER_4X6");
-         labelSpecification.setimageType("PDF");
+         labelSpecification.setLabelStockType("PAPER_4X6");
+         labelSpecification.setImageType("PDF");
      }
 
      private RequestedPackageLineItems setrequestedPackageLineItems(BmsKitRequest bmsKitRequest){
@@ -302,9 +302,6 @@ public class BMSFedexService {
         RequestedShipment requestedShipment = new RequestedShipment();
         Shipper shipper = new Shipper();
         Recipients recipients = new Recipients();
-        PickupType pickupType = new PickupType();
-        ServiceType serviceType = new ServiceType();
-        PackagingType packagingType = new PackagingType();
         ShippingChargesPayment shippingChargesPayment = new ShippingChargesPayment();
         LabelSpecification labelSpecification = new LabelSpecification();
         RequestedPackageLineItems requestedPackageLineItems = new RequestedPackageLineItems();
