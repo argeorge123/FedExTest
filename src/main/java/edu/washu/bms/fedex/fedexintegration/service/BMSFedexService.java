@@ -149,7 +149,7 @@ public class BMSFedexService {
             jsonObjectRecipients.put("address", jsonObjectAddress);
             jsonObjectRecipients.put("contact", jsonObjectContact);
             jsonObjectRequestedShipment.put("shipper", jsonObjectShipper);
-            jsonObjectRequestedShipment.put("shipper", jsonObjectRecipients);
+            jsonObjectRequestedShipment.put("recipients", jsonObjectRecipients);
             jsonObject.put("requestedShipment", jsonObjectRequestedShipment);
 
             logger.info("Payload for fedex------------->"+jsonObject.toString());
