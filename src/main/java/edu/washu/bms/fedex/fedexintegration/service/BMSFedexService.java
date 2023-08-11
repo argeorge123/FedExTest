@@ -295,7 +295,7 @@ public class BMSFedexService {
      private Weight setWeight(BmsKitRequest bmsKitRequest){
          Weight weight = new Weight();
          weight.setUnits("LB");
-         weight.setValue("3");
+         weight.setValue(3);
      }
 
     private RequestedShipment setRequestedShipment(BmsKitRequest bmsKitRequest) {
@@ -340,7 +340,7 @@ public class BMSFedexService {
         requestedShipment.setLabelSpecification(setLabelSpecification(bmsKitRequest));
 
         //Setting the weight of the package
-        requestedShipment.setrequestedPackageLineItems(setrequestedPackageLineItems(bmsKitRequest));
+        requestedShipment.setRequestedPackageLineItems(setRequestedPackageLineItems(bmsKitRequest));
 
     }
 
