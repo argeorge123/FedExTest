@@ -120,15 +120,15 @@ public class BMSFedexService {
             jsonObjectRequestedShipment.put("shipper",bmsfedexModel.getRequestedShipment().getShipper());
             jsonObject.put("requestedShipment",jsonObjectRequestedShipment);
             JSONObject jsonObjectShipper = new JSONObject();
-            jsonObjectShipper.put("streetLines",bmsfedexModel.getRequestedShipment().shipper().getRepoAddress().getStreetLines());
-            jsonObjectShipper.put("city",bmsfedexModel.getRequestedShipment().shipper().getRepoAddress().getCity());
-            jsonObjectShipper.put("postalCode",bmsfedexModel.getRequestedShipment().shipper().getRepoAddress().getPostalCode());
-            jsonObjectShipper.put("countryCode",bmsfedexModel.getRequestedShipment().shipper().getRepoAddress().getCountryCode());
+            jsonObjectShipper.put("streetLines",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines());
+            jsonObjectShipper.put("city",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCity());
+            jsonObjectShipper.put("postalCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getPostalCode());
+            jsonObjectShipper.put("countryCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCountryCode());
             jsonObject.put("address",jsonObjectShipper);
-            jsonObjectShipper.put("personName",bmsfedexModel.getRequestedShipment().shipper().getRepoContact().getPersonName());
-            jsonObjectShipper.put("emailAddress",bmsfedexModel.getRequestedShipment().shipper().getRepoContact().getEmailAddress());
-            jsonObjectShipper.put("phoneNumber",bmsfedexModel.getRequestedShipment().shipper().getRepoContact().getPhoneNumber());
-            jsonObjectShipper.put("companyName",bmsfedexModel.getRequestedShipment().shipper().getRepoContact().getCompanyName());
+            jsonObjectShipper.put("personName",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPersonName());
+            jsonObjectShipper.put("emailAddress",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getEmailAddress());
+            jsonObjectShipper.put("phoneNumber",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPhoneNumber());
+            jsonObjectShipper.put("companyName",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getCompanyName());
             jsonObject.put("contact",jsonObjectShipper);
 
 
@@ -300,7 +300,6 @@ public class BMSFedexService {
         RequestedShipment requestedShipment = new RequestedShipment();
         Shipper shipper = new Shipper();
         Recipients recipients = new Recipients();
-        RequestedPackageLineItems RequestedPackageLineItems = new RequestedPackageLineItems();
         ShippingChargesPayment shippingChargesPayment = new ShippingChargesPayment();
         LabelSpecification labelSpecification = new LabelSpecification();
         RequestedPackageLineItems requestedPackageLineItems = new RequestedPackageLineItems();
@@ -308,10 +307,12 @@ public class BMSFedexService {
         // Setting shipper(repo) address and contact
         shipper.setRepoAddress(setRepoAddress(bmsKitRequest));
         shipper.setRepoContact(setRepoContact(bmsKitRequest));
+        requestedShipment.setShipper(shipper);
 
         //Setting recipients(collection-site) address an contact
         recipients.setAddress(setAddress(bmsKitRequest));
         recipients.setContact(setContact(bmsKitRequest));
+        requestedShipment.setRecipients(recipients);
 
         //Setting pickup type
         requestedShipment.setPickupType("USE_SCHEDULED_PICKUP");
@@ -340,6 +341,7 @@ public class BMSFedexService {
 
         //Setting the weight of the package
         requestedPackageLineItems.setWeight(setWeight(bmsKitRequest));
+        requestedShipment.setRequestedPackageLineItems(requestedPackageLineItems)
 
         return requestedShipment;
     }
