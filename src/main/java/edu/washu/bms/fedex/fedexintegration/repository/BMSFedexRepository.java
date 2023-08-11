@@ -19,7 +19,7 @@ public interface BMSFedexRepository extends JpaRepository<BmsKitRequest, Long> {
 //Finding all open requests for process.
     @Query("select c from BmsKitRequest c where c.repository= :repository and c.kitRequestStatus= :kit_request_status and c.shippingOption IN (:shipping_option)")
     List<BmsKitRequest> findAllOpenRequests(@Param("repository") int repository,
-                                            @Param("kit_request_status") String kit_request_status
+                                            @Param("kit_request_status") String kit_request_status,
                                             @Param("shipping_option") String shipping_option);
 
  //Updating the kit request transaction with Mayo kit request ID.
