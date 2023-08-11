@@ -114,7 +114,7 @@ public class BMSFedexService {
             BmsfedexModel bmsfedexModel = new BmsfedexModel();
             bmsfedexModel.setRequestedShipment(setRequestedShipment(bmsKitRequest));
             bmsfedexModel.setLabelResponseOptions("URL_ONLY");
-            //bmsfedexModel.setAccountNumber(setAccountNumber(bmsKitRequest));
+            bmsfedexModel.setAccountNumber(setAccountNumber(bmsKitRequest));
 
             HttpEntity<BmsfedexModel> request = new HttpEntity<>(bmsfedexModel);
 
@@ -389,8 +389,8 @@ public class BMSFedexService {
         return requestedShipment;
     }
 
-    //private AccountNumber setAccountNumber(BmsKitRequest bmsKitRequest){
-      //  AccountNumber accountNumber = new AccountNumber();
-    //    accountNumber.setValue("740561073");
-  //  }
+    private AccountNumber setAccountNumber(BmsKitRequest bmsKitRequest){
+      AccountNumber accountNumber = new AccountNumber();
+        accountNumber.setValue("740561073");
+    }
 }
