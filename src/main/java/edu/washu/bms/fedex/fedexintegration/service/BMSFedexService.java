@@ -21,6 +21,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.LinkedMultiValueMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.Arrays;
+
 import org.json.simple.JSONObject;
 
 import org.springframework.boot.SpringApplication;
@@ -208,7 +211,7 @@ public class BMSFedexService {
     // Gets all Open Requests in a time interval from BioMS DB
     private List<BmsKitRequest> findAllOPenKitRequests(){
         logger.info("Finding all WashU In process kit requests to process ");
-      List<BmsKitRequest> allOpenRequests= bmsFedexRepository.findAllOpenRequests(81,"In Process");
+      List<BmsKitRequest> allOpenRequests= bmsFedexRepository.findAllOpenRequests(81,"In Process",Arrays.asList("Regular (within 10 business days from today)", "Expedited via FedEx (within 1-2 business days from today)"));
       logger.info("Number of WashU In process kit = {}",allOpenRequests.size());
       return allOpenRequests;
     }
