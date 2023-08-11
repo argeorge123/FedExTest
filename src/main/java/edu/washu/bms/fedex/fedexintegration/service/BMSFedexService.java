@@ -123,6 +123,13 @@ public class BMSFedexService {
             JSONObject jsonObjectRecipients = new JSONObject();
             JSONObject jsonObjectAddress = new JSONObject();
             JSONObject jsonObjectContact = new JSONObject();
+            JSONObject jsonObjectShippingChargesPayment = new JSONObject();
+            JSONObject jsonObjectLabelSpecification = new JSONObject();
+            JSONObject jsonObjectRequestedPackageLineItems = new JSONObject();
+            JSONObject jsonObjectWeight = new JSONObject();
+            JSONObject jsonObjectLabelResponseOptions = new JSONObject();
+
+
 
             jsonRObjectAddress.put("streetLines",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines());
             jsonRObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCity());
@@ -144,13 +151,28 @@ public class BMSFedexService {
             jsonObjectContact.put("phoneNumber",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getPhoneNumber());
             jsonObjectContact.put("companyName",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getCompanyName());
 
+            jsonObjectWeight.put("units",bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems().setWeight().setUnits());
+            jsonObjectWeight.put("value",bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems().setWeight().setValue());
+
             jsonObjectShipper.put("address", jsonRObjectAddress);
             jsonObjectShipper.put("contact", jsonRObjectContact);
             jsonObjectRecipients.put("address", jsonObjectAddress);
             jsonObjectRecipients.put("contact", jsonObjectContact);
+            jsonObjectRequestedPackageLineItems.put("weight",jsonObjectWeight);
+            jsonObjectShippingChargesPayment.put("paymentType",bmsfedexModel.getRequestedShipment().getShippingChargesPayment().setPaymentType());
+            jsonObjectLabelSpecification.put("labelStockType",bmsfedexModel.getRequestedShipment().getLabelSpecification().setLabelStockType());
+            jsonObjectLabelSpecification.put("imageType",bmsfedexModel.getRequestedShipment().getLabelSpecification().setImageType());
             jsonObjectRequestedShipment.put("shipper", jsonObjectShipper);
             jsonObjectRequestedShipment.put("recipients", jsonObjectRecipients);
-            jsonObject.put("requestedShipment", jsonObjectRequestedShipment);
+            jsonObjectRequestedShipment.put("pickupType", bmsfedexModel.getRequestedShipment().getPickupType());
+            jsonObjectRequestedShipment.put("serviceType", bmsfedexModel.getRequestedShipment().getServiceType());
+            jsonObjectRequestedShipment.put("packagingType", bmsfedexModel.getRequestedShipment().getPackagingType());
+            jsonObjectRequestedShipment.put("shippingChargesPayment", jsonObjectShippingChargesPayment);
+            jsonObjectRequestedShipment.put("labelSpecification",jsonObjectLabelSpecification);
+            jsonObjectRequestedShipment.put("requestedPackageLineItems",jsonObjectRequestedPackageLineItems);
+            jsonObject.put("requestedShipment", bmsfedexModel.getLabelResponseOptions());
+
+            jsonObject.put("labelResponseOptions", jsonObjectLabelResponseOptions);
 
             logger.info("Payload for fedex------------->"+jsonObject.toString());
 
