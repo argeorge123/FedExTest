@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 @Data
 public class AccountNumber {
-    private Number value;
+    private String value;
 }

@@ -111,7 +111,7 @@ public class BMSFedexService {
             BmsfedexModel bmsfedexModel = new BmsfedexModel();
             bmsfedexModel.setRequestedShipment(setRequestedShipment(bmsKitRequest));
             bmsfedexModel.setLabelResponseOptions("URL_ONLY");
-            bmsfedexModel.setAccountNumber(setAccountNumber(bmsKitRequest));
+            bmsfedexModel.setAccountNumber(setAccountNumber());
 
             HttpEntity<BmsfedexModel> request = new HttpEntity<>(bmsfedexModel);
 
@@ -287,12 +287,7 @@ public class BMSFedexService {
          labelSpecification.setImageType("PDF");
      }
 
-     private RequestedPackageLineItems setrequestedPackageLineItems(){
-         RequestedPackageLineItems requestedPackageLineItems = new RequestedPackageLineItems();
-         requestedPackageLineItems.setWeight(setWeight());
-     }
-
-     private Weight setWeight(){
+     private Weight setWeight(BmsKitRequest bmsKitRequest){
          Weight weight = new Weight();
          weight.setUnits("LB");
          weight.setValue(3);
@@ -302,6 +297,7 @@ public class BMSFedexService {
         RequestedShipment requestedShipment = new RequestedShipment();
         Shipper shipper = new Shipper();
         Recipients recipients = new Recipients();
+        RequestedPackageLineItems RequestedPackageLineItems = new RequestedPackageLineItems();
         ShippingChargesPayment shippingChargesPayment = new ShippingChargesPayment();
         LabelSpecification labelSpecification = new LabelSpecification();
         RequestedPackageLineItems requestedPackageLineItems = new RequestedPackageLineItems();
@@ -340,13 +336,13 @@ public class BMSFedexService {
         requestedShipment.setLabelSpecification(setLabelSpecification(bmsKitRequest));
 
         //Setting the weight of the package
-        requestedShipment.setRequestedPackageLineItems(setRequestedPackageLineItems());
+        requestedPackageLineItems.setWeight(setWeight(bmsKitRequest));
 
     }
 
 
-    private AccountNumber setAccountNumber(BmsKitRequest bmsKitRequest){
+    private AccountNumber setAccountNumber(){
         AccountNumber accountNumber = new AccountNumber();
-        accountNumber.setValue(740561073);
+        accountNumber.setValue("740561073");
     }
 }
