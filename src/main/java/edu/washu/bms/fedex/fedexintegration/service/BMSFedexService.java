@@ -175,6 +175,8 @@ public class BMSFedexService {
 
             jsonObject.put("labelResponseOptions", bmsfedexModel.getLabelResponseOptions());
 
+            jsonObject.put("accountNumber", bmsfedexModel.getAccountNumber());
+
             logger.info("Payload for fedex------------->"+jsonObject.toString());
 
 
