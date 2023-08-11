@@ -307,8 +307,8 @@ public class BMSFedexService {
         RequestedPackageLineItems requestedPackageLineItems = new RequestedPackageLineItems();
 
         // Setting shipper(repo) address and contact
-        shipper.setAddress(setRepoAddress(bmsKitRequest));
-        shipper.setContact(setRepoContact(bmsKitRequest));
+        shipper.setRepoAddress(setRepoAddress(bmsKitRequest));
+        shipper.setRepoContact(setRepoContact(bmsKitRequest));
 
         //Setting recipients(collection-site) address an contact
         recipients.setAddress(setAddress(bmsKitRequest));

@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @Data
 public class Shipper {
-    private Address address;
-    private Contact contact;
+    private RepoAddress repoAddress;
+    private RepoContact repoContact;
 }
