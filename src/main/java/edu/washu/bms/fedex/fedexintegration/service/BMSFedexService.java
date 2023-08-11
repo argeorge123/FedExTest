@@ -392,5 +392,6 @@ public class BMSFedexService {
     private AccountNumber setAccountNumber(BmsKitRequest bmsKitRequest){
       AccountNumber accountNumber = new AccountNumber();
         accountNumber.setValue("740561073");
+        return accountNumber;
     }
 }
