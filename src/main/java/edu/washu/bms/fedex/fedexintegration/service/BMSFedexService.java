@@ -278,6 +278,7 @@ public class BMSFedexService {
      private ShippingChargesPayment setShippingChargesPayment(BmsKitRequest bmsKitRequest){
          ShippingChargesPayment shippingChargesPayment = new ShippingChargesPayment();
          shippingChargesPayment.setPaymentType("SENDER");
+         return shippingChargesPayment;
      }
 
 
@@ -285,12 +286,14 @@ public class BMSFedexService {
          LabelSpecification labelSpecification = new LabelSpecification();
          labelSpecification.setLabelStockType("PAPER_4X6");
          labelSpecification.setImageType("PDF");
+         return labelSpecification;
      }
 
      private Weight setWeight(BmsKitRequest bmsKitRequest){
          Weight weight = new Weight();
          weight.setUnits("LB");
          weight.setValue(3);
+         return weight;
      }
 
     private RequestedShipment setRequestedShipment(BmsKitRequest bmsKitRequest) {
@@ -338,6 +341,7 @@ public class BMSFedexService {
         //Setting the weight of the package
         requestedPackageLineItems.setWeight(setWeight(bmsKitRequest));
 
+        retun requestedShipment;
     }
 
     //private AccountNumber setAccountNumber(BmsKitRequest bmsKitRequest){
