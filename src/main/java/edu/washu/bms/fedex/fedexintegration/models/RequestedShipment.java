@@ -17,7 +17,7 @@ public class RequestedShipment {
     private double totalWeight;
     private ShippingChargesPayment shippingChargesPayment;
     private LabelSpecification labelSpecification;
-    private List<RequestedPackageLineItems> requestedPackageLineItems;
+    private RequestedPackageLineItems requestedPackageLineItems;
 
 
 }
