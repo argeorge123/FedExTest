@@ -237,7 +237,7 @@ public class BMSFedexService {
         String country = bmsKitRequest.getCountry();
         address.setStreetLines(bmsKitRequest.getAddress1());
         address.setCity(bmsKitRequest.getCity());
-        address.setpostalCode(bmsKitRequest.getPostalCode())
+        address.setpostalCode(bmsKitRequest.getPostalCode());
         if("United States".equalsIgnoreCase(country)){
             address.setCountryCode("US");
         }else if ("Canada".equalsIgnoreCase(country)) {
@@ -257,7 +257,7 @@ public class BMSFedexService {
 
     private Contact setContact(BmsKitRequest bmsKitRequest) {
         Contact contact = new Contact();
-        String fullName = bmsKitRequest.getReqFirstName() + " " + bmsKitRequest.getReqLastName()
+        String fullName = bmsKitRequest.getReqFirstName() + " " + bmsKitRequest.getReqLastName();
         contact.setPersonName(fullName);
         contact.setEmailAddress(bmsKitRequest.getRequesterEmail());
         contact.setPhoneNumber(bmsKitRequest.getRequesterPhoneNumber());

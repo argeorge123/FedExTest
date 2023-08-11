@@ -10,5 +10,5 @@ import lombok.Setter;
 public class BmsFedexResponse {
     private String transactionId;
     private String customerTransactionId;
-    private Output output
+    private Output output;
 }
