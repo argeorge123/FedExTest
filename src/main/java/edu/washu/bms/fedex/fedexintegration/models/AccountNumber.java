@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class ShippingChargesPayment
-{
-    private String paymentType;
+public class AccountNumber {
+    private String value;
 }

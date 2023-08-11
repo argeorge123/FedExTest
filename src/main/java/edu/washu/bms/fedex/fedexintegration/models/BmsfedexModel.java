@@ -10,5 +10,5 @@ import lombok.Setter;
 public class BmsfedexModel {
     private RequestedShipment requestedShipment;
     private String labelResponseOptions;
-    private AccountNumber accountNumber;
+    private String accountNumber;
 }

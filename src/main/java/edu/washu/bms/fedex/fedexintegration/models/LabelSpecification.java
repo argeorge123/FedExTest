@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @Data
 public class LabelSpecification {
-    private LabelStockType labelStockType;
-    private ImageType imageType;
+    private String labelStockType;
+    private String imageType;
 }

@@ -12,5 +12,5 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 public class ShipmentDocuments {
     private String trackingNumber;
-    private Sring url;
+    private String url;
 }

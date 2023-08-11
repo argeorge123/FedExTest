@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @Data
 public class Weight {
-    private Units units;
-    private Value value;
+    private String units;
+    private Number value;
 }

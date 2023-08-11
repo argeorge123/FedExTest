@@ -274,20 +274,6 @@ public class BMSFedexService {
             return contact;
         }
 
-        private ServiceType setServiceType(BmsKitRequest bmsKitRequest){
-            ServiceType serviceType = new ServiceType();
-            String shippingOption = bmsKitRequest.getShippingOption();
-            if ("United States".equalsIgnoreCase(country)) {
-                if("Regular (within 10 business days from today)".equalsIgnoreCase(shippingOption)){
-                    address.setCountryCode("US");
-                }
-            }
-            else if ("Canada".equalsIgnoreCase(country)) {
-                address.setCountryCode("CA");
-            }
-
-        }
-
 
      private ShippingChargesPayment setShippingChargesPayment(BmsKitRequest bmsKitRequest){
          ShippingChargesPayment shippingChargesPayment = new ShippingChargesPayment();
