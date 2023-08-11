@@ -287,7 +287,7 @@ public class BMSFedexService {
          labelSpecification.setImageType("PDF");
      }
 
-     private RequestedPackageLineItems setrequestedPackageLineItems(BmsKitRequest bmsKitRequest){
+     private RequestedPackageLineItems setrequestedPackageLineItems(){
          RequestedPackageLineItems requestedPackageLineItems = new RequestedPackageLineItems();
          requestedPackageLineItems.setWeight(setWeight(bmsKitRequest));
      }
@@ -340,7 +340,7 @@ public class BMSFedexService {
         requestedShipment.setLabelSpecification(setLabelSpecification(bmsKitRequest));
 
         //Setting the weight of the package
-        requestedShipment.setRequestedPackageLineItems(setRequestedPackageLineItems(bmsKitRequest));
+        requestedShipment.setRequestedPackageLineItems(setRequestedPackageLineItems());
 
     }
 
