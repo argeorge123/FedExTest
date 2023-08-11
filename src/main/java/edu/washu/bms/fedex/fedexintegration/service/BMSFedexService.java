@@ -114,7 +114,7 @@ public class BMSFedexService {
             BmsfedexModel bmsfedexModel = new BmsfedexModel();
             bmsfedexModel.setRequestedShipment(setRequestedShipment(bmsKitRequest));
             bmsfedexModel.setLabelResponseOptions("URL_ONLY");
-            bmsfedexModel.setAccountNumber(setAccountNumber(bmsKitRequest));
+            bmsfedexModel.setAccountNumber(setAccountNumber(bmsKitRequest).getValue());
 
             HttpEntity<BmsfedexModel> request = new HttpEntity<>(bmsfedexModel);
 
