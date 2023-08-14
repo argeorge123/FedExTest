@@ -364,12 +364,12 @@ public class BMSFedexService {
     private RequestedShipment setRequestedShipment(BmsKitRequest bmsKitRequest) {
         RequestedShipment requestedShipment = new RequestedShipment();
         Shipper shipper = new Shipper();
-        List<Recipient> recipientList = new ArrayList<>();
-        Recipients recipients = new Recipients();
+        List<Recipients> recipientList = new ArrayList<>();
+        Recipient recipient = new Recipient();
         ShippingChargesPayment shippingChargesPayment = new ShippingChargesPayment();
         LabelSpecification labelSpecification = new LabelSpecification();
-        List<RequestedPackageLineItem> packageLineItemList = new ArrayList<>();
-        RequestedPackageLineItems requestedPackageLineItems = new RequestedPackageLineItems();
+        List<RequestedPackageLineItems> packageLineItemList = new ArrayList<>();
+        RequestedPackageLineItem requestedPackageLineItem = new RequestedPackageLineItem();
 
         // Setting shipper(repo) address and contact
         shipper.setRepoAddress(setRepoAddress(bmsKitRequest));
@@ -377,9 +377,9 @@ public class BMSFedexService {
         requestedShipment.setShipper(shipper);
 
         //Setting recipients(collection-site) address an contact
-        recipients.setAddress(setAddress(bmsKitRequest));
-        recipients.setContact(setContact(bmsKitRequest));
-        recipientList.add(recipients);
+        recipient.setAddress(setAddress(bmsKitRequest));
+        recipient.setContact(setContact(bmsKitRequest));
+        recipientList.add(recipient);
         requestedShipment.setRecipients(recipientList);
 
         //Setting pickup type
@@ -408,9 +408,9 @@ public class BMSFedexService {
         requestedShipment.setLabelSpecification(setLabelSpecification(bmsKitRequest));
 
         //Setting the weight of the package
-        requestedPackageLineItems.setWeight(setWeight(bmsKitRequest));
-        packageLineItemList.add(requestedPackageLineItems);
-        requestedShipment.setRequestedPackageLineItems(requestedPackageLineItems);
+        requestedPackageLineItem.setWeight(setWeight(bmsKitRequest));
+        packageLineItemList.add(requestedPackageLineItem);
+        requestedShipment.setRequestedPackageLineItems(requestedPackageLineItem);
 
         return requestedShipment;
     }
