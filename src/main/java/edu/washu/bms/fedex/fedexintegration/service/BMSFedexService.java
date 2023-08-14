@@ -131,7 +131,7 @@ public class BMSFedexService {
             JSONObject jsonObjectLabelSpecification = new JSONObject();
             JSONObject jsonObjectRequestedPackageLineItems = new JSONObject();
             JSONObject jsonObjectWeight = new JSONObject();
-
+            JSONObject jsonObjectValue = new jsonObject();
 
             List<String> repostreetLines = bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines();
             jsonRObjectAddress.put("streetLines",repostreetLines);
