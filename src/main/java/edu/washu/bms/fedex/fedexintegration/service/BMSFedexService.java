@@ -176,12 +176,13 @@ public class BMSFedexService {
 
             jsonObjectShipper.put("address", jsonRObjectAddress);
             jsonObjectShipper.put("contact", jsonRObjectContact);
-
-            JSONArray shipperArray = new JSONArray();
-            shipperArray.add(jsonObjectShipper);
             jsonObjectRecipients.put("address", jsonObjectAddress);
             jsonObjectRecipients.put("contact", jsonObjectContact);
+            JSONArray recipientShipArray = new JSONArray();
+            recipientShipArray.add(jsonObjectRecipients);
             jsonObjectRequestedPackageLineItems.put("weight",jsonObjectWeight);
+            JSONArray requestedPackageLineItemsArray = new JSONArray();
+            requestedPackageLineItemsArray.add(jsonObjectRequestedPackageLineItems);
             jsonObjectShippingChargesPayment.put("paymentType",bmsfedexModel.getRequestedShipment().getShippingChargesPayment().getPaymentType());
             jsonObjectLabelSpecification.put("labelStockType",bmsfedexModel.getRequestedShipment().getLabelSpecification().getLabelStockType());
             jsonObjectLabelSpecification.put("imageType",bmsfedexModel.getRequestedShipment().getLabelSpecification().getImageType());
