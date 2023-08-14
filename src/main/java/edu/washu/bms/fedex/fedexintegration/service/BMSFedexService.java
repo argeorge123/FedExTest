@@ -178,7 +178,7 @@ public class BMSFedexService {
             jsonObjectShipper.put("contact", jsonRObjectContact);
 
             JSONArray shipperArray = new JSONArray();
-            shipperArray.put(jsonObjectShipper);
+            shipperArray.add(jsonObjectShipper);
             jsonObjectRecipients.put("address", jsonObjectAddress);
             jsonObjectRecipients.put("contact", jsonObjectContact);
             jsonObjectRequestedPackageLineItems.put("weight",jsonObjectWeight);
