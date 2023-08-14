@@ -72,8 +72,8 @@ public class BMSFedexService {
 
 
     // from config properties file
-    @Value("${kit_create_url}")
-    private String kit_create_url;
+    @Value("${fedex_create_url}")
+    private String fedex_create_url;
     @Value("${auth_url}")
     private String auth_url;
     @Value("${grant_type}")
@@ -91,7 +91,7 @@ public class BMSFedexService {
     public void createBmsKitRequest(){
         logger.info("got into createbmskitrequest");
         //logger.debug("In Create Request Service-->" + kit_create_url);
-        logger.info("In Create Request Service-->" + kit_create_url);
+        logger.info("In Create Fedex Request Service-->" + fedex_create_url);
         List<BmsKitRequest> bmsKitRequests = this.findAllOPenKitRequests();
         if(this.findAllOPenKitRequests()==null){
         logger.info("No kit requests found for processing");
@@ -188,11 +188,17 @@ public class BMSFedexService {
             }
             else {
                 logger.info("success");
-                ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
-                logger.info("----------create kit response-------->"+response);
-                if (response.getStatusCode() == HttpStatus.CREATED) {
-                    TransactionShipments transactionShipments = response.getBody().getTransactionShipments();
-                    logger.info("-------->transactionShipments------->"+transactionShipments);
+                String createfedexUrl = this.fedex_create_url;
+                UriComponentsBuilder URL = UriComponentsBuilder.fromHttpUrl(createfedexUrl)
+                        .queryParam("param",jsonObject);;
+                logger.info(URL.toUriString()+"--------------->This is the create fedex url");
+                try{
+                    ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
+                    logger.info("----------create kit response-------->"+response);
+                    if (response.getStatusCode() == HttpStatus.CREATED) {
+                        TransactionShipments transactionShipments = response.getBody().getTransactionShipments();
+                        logger.info("-------->transactionShipments------->"+transactionShipments);
+                    }
                 }
             }
         }

@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+@Data
 @Getter
 @Setter
-@Data
 @ResponseBody
 
 public class TransactionShipments {
