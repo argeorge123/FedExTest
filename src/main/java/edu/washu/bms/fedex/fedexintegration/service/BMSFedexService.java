@@ -199,8 +199,11 @@ public class BMSFedexService {
                         TransactionShipments transactionShipments = response.getBody().getTransactionShipments();
                         logger.info("-------->transactionShipments------->"+transactionShipments);
                     }
+                }catch (Exception ex) {
+                    logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
+                    emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu" ,"Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} "+ ex.getMessage());
+
                 }
-            }
         }
     }
 
