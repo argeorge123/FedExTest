@@ -368,7 +368,7 @@ public class BMSFedexService {
         Recipient recipient = new Recipient();
         ShippingChargesPayment shippingChargesPayment = new ShippingChargesPayment();
         LabelSpecification labelSpecification = new LabelSpecification();
-        List<RequestedPackageLineItems> packageLineItemList = new ArrayList<>();
+        List<RequestedPackageLineItem> packageLineItemList = new ArrayList<>();
         RequestedPackageLineItem requestedPackageLineItem = new RequestedPackageLineItem();
 
         // Setting shipper(repo) address and contact
@@ -410,7 +410,7 @@ public class BMSFedexService {
         //Setting the weight of the package
         requestedPackageLineItem.setWeight(setWeight(bmsKitRequest));
         packageLineItemList.add(requestedPackageLineItem);
-        requestedShipment.setRequestedPackageLineItems(requestedPackageLineItem);
+        requestedShipment.setRequestedPackageLineItem(requestedPackageLineItem);
 
         return requestedShipment;
     }
