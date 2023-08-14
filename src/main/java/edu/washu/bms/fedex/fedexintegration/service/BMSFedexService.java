@@ -197,7 +197,7 @@ public class BMSFedexService {
                     logger.info("----------create fedex response-------->" + response);
                     if (response.getStatusCode() == HttpStatus.CREATED) {
                         Output output = response.getBody().getOutput();
-                        logger.info("-------->transactionShipments------->" + transactionShipments);
+                        logger.info("-------->transactionShipments------->" + output);
                     }
                 } catch (Exception ex) {
                     logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
