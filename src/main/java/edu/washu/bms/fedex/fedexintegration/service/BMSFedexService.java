@@ -296,8 +296,10 @@ public class BMSFedexService {
 
     private Address setAddress(BmsKitRequest bmsKitRequest) {
         Address address = new Address();
+        List<String> streetLines = new ArrayList<>();
         String country = bmsKitRequest.getCountry();
-        address.setStreetLines(bmsKitRequest.getAddress1());
+        streetLines.add(bmsKitRequest.getAddress1());
+        address.setStreetLines(streetLines);
         address.setCity(bmsKitRequest.getCity());
         address.setPostalCode(bmsKitRequest.getPostalCode());
         if("United States".equalsIgnoreCase(country)){
@@ -310,7 +312,9 @@ public class BMSFedexService {
 
         private RepoAddress setRepoAddress(BmsKitRequest bmsKitRequest) {
             RepoAddress address = new RepoAddress();
-            address.setStreetLines("425 S Euclid, Room 5120");
+            List<String> streetLines = new ArrayList<>();
+            streetLines.add("425 S Euclid, Room 5120");
+            address.setStreetLines(streetLines);
             address.setCity("St Louis");
             address.setPostalCode("63110");
             address.setCountryCode("US");
@@ -359,9 +363,11 @@ public class BMSFedexService {
     private RequestedShipment setRequestedShipment(BmsKitRequest bmsKitRequest) {
         RequestedShipment requestedShipment = new RequestedShipment();
         Shipper shipper = new Shipper();
+        List<Recipient> recipientList = new ArrayList<>();
         Recipients recipients = new Recipients();
         ShippingChargesPayment shippingChargesPayment = new ShippingChargesPayment();
         LabelSpecification labelSpecification = new LabelSpecification();
+        List<RequestedPackageLineItem> packageLineItemList = new ArrayList<>();
         RequestedPackageLineItems requestedPackageLineItems = new RequestedPackageLineItems();
 
         // Setting shipper(repo) address and contact
@@ -372,7 +378,8 @@ public class BMSFedexService {
         //Setting recipients(collection-site) address an contact
         recipients.setAddress(setAddress(bmsKitRequest));
         recipients.setContact(setContact(bmsKitRequest));
-        requestedShipment.setRecipients(recipients);
+        recipientList.add(recipients);
+        requestedShipment.setRecipients(recipientList);
 
         //Setting pickup type
         requestedShipment.setPickupType("USE_SCHEDULED_PICKUP");
@@ -401,6 +408,7 @@ public class BMSFedexService {
 
         //Setting the weight of the package
         requestedPackageLineItems.setWeight(setWeight(bmsKitRequest));
+        packageLineItemList.add(requestedPackageLineItems);
         requestedShipment.setRequestedPackageLineItems(requestedPackageLineItems);
 
         return requestedShipment;
