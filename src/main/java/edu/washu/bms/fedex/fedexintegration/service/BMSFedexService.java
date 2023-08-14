@@ -189,21 +189,22 @@ public class BMSFedexService {
             else {
                 logger.info("success");
                 String createfedexUrl = this.fedex_create_url;
-                UriComponentsBuilder URL = UriComponentsBuilder.fromHttpUrl(createfedexUrl)
-                        .queryParam("param",jsonObject);;
-                logger.info(URL.toUriString()+"--------------->This is the create fedex url");
-                try{
+                UriComponentsBuilder URL = UriComponentsBuilder.fromHttpUrl(createfedexUrl).queryParam("param", jsonObject);
+                ;
+                logger.info(URL.toUriString() + "--------------->This is the create fedex url");
+                try {
                     ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
-                    logger.info("----------create kit response-------->"+response);
+                    logger.info("----------create kit response-------->" + response);
                     if (response.getStatusCode() == HttpStatus.CREATED) {
                         TransactionShipments transactionShipments = response.getBody().getTransactionShipments();
-                        logger.info("-------->transactionShipments------->"+transactionShipments);
+                        logger.info("-------->transactionShipments------->" + transactionShipments);
                     }
-                }catch (Exception ex) {
+                } catch (Exception ex) {
                     logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
-                    emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu" ,"Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} "+ ex.getMessage());
+                    emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
 
                 }
+            }
         }
     }
 
