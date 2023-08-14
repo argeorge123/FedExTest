@@ -133,8 +133,8 @@ public class BMSFedexService {
             JSONObject jsonObjectWeight = new JSONObject();
             JSONObject jsonObjectValue = new jsonObjectValue();
 
-
-            jsonRObjectAddress.put("streetLines",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines());
+            List<String> shipperstreetLines = bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines();
+            jsonRObjectAddress.put("streetLines",shipperstreetLines);
             jsonRObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCity());
             jsonRObjectAddress.put("postalCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getPostalCode());
             jsonRObjectAddress.put("countryCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCountryCode());
@@ -143,7 +143,8 @@ public class BMSFedexService {
             jsonRObjectContact.put("emailAddress",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getEmailAddress());
             jsonRObjectContact.put("phoneNumber",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPhoneNumber());
 
-            jsonObjectAddress.put("streetLines",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getStreetLines());
+            List<String> recipientsstreetLines = bmsfedexModel.getRequestedShipment().getRecipients().getRepoAddress().getStreetLines()
+            jsonObjectAddress.put("streetLines",recipientsstreetLines);
             jsonObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getCity());
             jsonObjectAddress.put("postalCode",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getPostalCode());
             jsonObjectAddress.put("countryCode",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getCountryCode());
