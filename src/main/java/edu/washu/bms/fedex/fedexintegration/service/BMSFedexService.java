@@ -365,7 +365,7 @@ public class BMSFedexService {
         RequestedShipment requestedShipment = new RequestedShipment();
         Shipper shipper = new Shipper();
         List<Recipients> recipientList = new ArrayList<>();
-        Recipient recipient = new Recipient();
+        Recipients recipients = new Recipients();
         ShippingChargesPayment shippingChargesPayment = new ShippingChargesPayment();
         LabelSpecification labelSpecification = new LabelSpecification();
         List<RequestedPackageLineItems> packageLineItemList = new ArrayList<>();
@@ -377,9 +377,9 @@ public class BMSFedexService {
         requestedShipment.setShipper(shipper);
 
         //Setting recipients(collection-site) address an contact
-        recipient.setAddress(setAddress(bmsKitRequest));
-        recipient.setContact(setContact(bmsKitRequest));
-        recipientList.add(recipient);
+        recipients.setAddress(setAddress(bmsKitRequest));
+        recipients.setContact(setContact(bmsKitRequest));
+        recipientList.add(recipients);
         requestedShipment.setRecipients(recipientList);
 
         //Setting pickup type
