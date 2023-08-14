@@ -415,7 +415,7 @@ public class BMSFedexService {
         //Setting the weight of the package
         requestedPackageLineItems.setWeight(setWeight(bmsKitRequest));
         packageLineItemList.add(requestedPackageLineItems);
-        requestedShipment.setRequestedPackageLineItems(requestedPackageLineItems);
+        requestedShipment.setRequestedPackageLineItems(packageLineItemList);
 
         return requestedShipment;
     }
