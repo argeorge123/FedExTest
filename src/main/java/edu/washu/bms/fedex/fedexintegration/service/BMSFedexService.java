@@ -134,7 +134,12 @@ public class BMSFedexService {
             JSONObject jsonObjectValue = new JSONObject();
 
             List<String> repostreetLines = bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines();
-            jsonRObjectAddress.put("streetLines",repostreetLines);
+            // Create a JSONArray for streetLines
+            JSONArray repostreetLinesArray = new JSONArray();
+            for (String streetLine : streetLines) {
+                repostreetLinesArray.put(streetLine);
+            }
+            jsonRObjectAddress.put("streetLines",repostreetLinesArray);
             jsonRObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCity());
             jsonRObjectAddress.put("postalCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getPostalCode());
             jsonRObjectAddress.put("countryCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCountryCode());
@@ -145,7 +150,14 @@ public class BMSFedexService {
 
             for (Recipients recipient : bmsfedexModel.getRequestedShipment().getRecipients()) {
                 List<String> streetLines = recipient.getAddress().getStreetLines();
-                jsonObjectAddress.put("streetLines", recipient.getAddress().getStreetLines());
+
+                // Create a JSONArray for streetLines
+                JSONArray streetLinesArray = new JSONArray();
+                for (String streetLine : streetLines) {
+                    streetLinesArray.put(streetLine);
+                }
+
+                jsonObjectAddress.put("streetLines", streetLinesArray);
                 jsonObjectAddress.put("city", recipient.getAddress().getCity());
                 jsonObjectAddress.put("postalCode", recipient.getAddress().getPostalCode());
                 jsonObjectAddress.put("countryCode", recipient.getAddress().getCountryCode());
@@ -164,13 +176,16 @@ public class BMSFedexService {
 
             jsonObjectShipper.put("address", jsonRObjectAddress);
             jsonObjectShipper.put("contact", jsonRObjectContact);
+
+            JSONArray shipperArray = new JSONArray();
+            shipperArray.put(jsonObjectShipper);
             jsonObjectRecipients.put("address", jsonObjectAddress);
             jsonObjectRecipients.put("contact", jsonObjectContact);
             jsonObjectRequestedPackageLineItems.put("weight",jsonObjectWeight);
             jsonObjectShippingChargesPayment.put("paymentType",bmsfedexModel.getRequestedShipment().getShippingChargesPayment().getPaymentType());
             jsonObjectLabelSpecification.put("labelStockType",bmsfedexModel.getRequestedShipment().getLabelSpecification().getLabelStockType());
             jsonObjectLabelSpecification.put("imageType",bmsfedexModel.getRequestedShipment().getLabelSpecification().getImageType());
-            jsonObjectRequestedShipment.put("shipper", jsonObjectShipper);
+            jsonObjectRequestedShipment.put("shipper", shipperArray);
             jsonObjectRequestedShipment.put("recipients", jsonObjectRecipients);
             jsonObjectRequestedShipment.put("pickupType", bmsfedexModel.getRequestedShipment().getPickupType());
             jsonObjectRequestedShipment.put("serviceType", bmsfedexModel.getRequestedShipment().getServiceType());
