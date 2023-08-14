@@ -188,6 +188,12 @@ public class BMSFedexService {
             }
             else {
                 logger.info("success");
+                ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
+                logger.info("----------create kit response-------->"+response);
+                if (response.getStatusCode() == HttpStatus.CREATED) {
+                    TransactionShipments transactionShipments = response.getBody().getTransactionShipments();
+                    logger.info("-------->transactionShipments------->"+transactionShipments);
+                }
             }
         }
     }
