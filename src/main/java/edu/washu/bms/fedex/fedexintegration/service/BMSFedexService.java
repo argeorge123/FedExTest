@@ -133,8 +133,8 @@ public class BMSFedexService {
             JSONObject jsonObjectWeight = new JSONObject();
             JSONObject jsonObjectValue = new jsonObjectValue();
 
-            List<String> shipperstreetLines = bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines();
-            jsonRObjectAddress.put("streetLines",shipperstreetLines);
+            List<String> repostreetLines = bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines();
+            jsonRObjectAddress.put("streetLines",repostreetLines);
             jsonRObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCity());
             jsonRObjectAddress.put("postalCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getPostalCode());
             jsonRObjectAddress.put("countryCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCountryCode());
@@ -143,19 +143,22 @@ public class BMSFedexService {
             jsonRObjectContact.put("emailAddress",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getEmailAddress());
             jsonRObjectContact.put("phoneNumber",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPhoneNumber());
 
-            List<String> recipientsstreetLines = bmsfedexModel.getRequestedShipment().getRecipients().getRepoAddress().getStreetLines();
-            jsonObjectAddress.put("streetLines",recipientsstreetLines);
-            jsonObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getCity());
-            jsonObjectAddress.put("postalCode",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getPostalCode());
-            jsonObjectAddress.put("countryCode",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getCountryCode());
+            for (Recipients recipient : bmsfedexModel.getRequestedShipment().getRecipients()) {
+                List<String> streetLines = recipent.getAddress().getStreetLines()
+                jsonObjectAddress.put("streetLines", recipent.getAddress().getStreetLines());
+                jsonObjectAddress.put("city", recipent.getAddress().getCity());
+                jsonObjectAddress.put("postalCode", recipent.getAddress().getPostalCode());
+                jsonObjectAddress.put("countryCode", recipent.getAddress().getCountryCode());
 
-            jsonObjectContact.put("personName",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getPersonName());
-            jsonObjectContact.put("emailAddress",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getEmailAddress());
-            jsonObjectContact.put("phoneNumber",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getPhoneNumber());
+                jsonObjectContact.put("personName", recipent.getContact().getPersonName());
+                jsonObjectContact.put("emailAddress", recipent.getContact().getEmailAddress());
+                jsonObjectContact.put("phoneNumber", recipent.getContact().getPhoneNumber());
+            }
 
-            jsonObjectWeight.put("units",bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems().getWeight().getUnits());
-            jsonObjectWeight.put("value",bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems().getWeight().getValue());
-
+            for (RequestedPackageLineItems packageItem : bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems()) {
+                jsonObjectWeight.put("units", packageItem.getWeight().getUnits());
+                jsonObjectWeight.put("value", packageItem.getWeight().getValue());
+            }
             jsonObjectValue.put("value",bmsfedexModel.getAccountNumber());
 
             jsonObjectShipper.put("address", jsonRObjectAddress);
