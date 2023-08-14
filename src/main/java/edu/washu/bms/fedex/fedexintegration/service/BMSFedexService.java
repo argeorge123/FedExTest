@@ -137,7 +137,7 @@ public class BMSFedexService {
             // Create a JSONArray for streetLines
             JSONArray repostreetLinesArray = new JSONArray();
             for (String streetLine : repostreetLines) {
-                repostreetLinesArray.put(streetLine);
+                repostreetLinesArray.add(streetLine);
             }
             jsonRObjectAddress.put("streetLines",repostreetLinesArray);
             jsonRObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCity());
@@ -154,7 +154,7 @@ public class BMSFedexService {
                 // Create a JSONArray for streetLines
                 JSONArray streetLinesArray = new JSONArray();
                 for (String streetLine : streetLines) {
-                    streetLinesArray.put(streetLine);
+                    streetLinesArray.add(streetLine);
                 }
 
                 jsonObjectAddress.put("streetLines", streetLinesArray);
