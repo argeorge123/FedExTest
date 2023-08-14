@@ -11,5 +11,4 @@ public class RepoContact {
     private String personName;
     private String emailAddress;
     private String phoneNumber;
-    private String companyName;
-}
+   }

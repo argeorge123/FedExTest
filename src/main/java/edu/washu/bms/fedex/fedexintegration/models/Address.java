@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Address {
-    private String streetLines;
+    private List<String> streetLines;
     private String city;
     private String postalCode;
     private String countryCode;

@@ -130,6 +130,7 @@ public class BMSFedexService {
             JSONObject jsonObjectLabelSpecification = new JSONObject();
             JSONObject jsonObjectRequestedPackageLineItems = new JSONObject();
             JSONObject jsonObjectWeight = new JSONObject();
+            JSONObject jsonObjectValue = new jsonObjectValue();
 
 
             jsonRObjectAddress.put("streetLines",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines());
@@ -140,7 +141,6 @@ public class BMSFedexService {
             jsonRObjectContact.put("personName",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPersonName());
             jsonRObjectContact.put("emailAddress",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getEmailAddress());
             jsonRObjectContact.put("phoneNumber",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPhoneNumber());
-            jsonRObjectContact.put("companyName",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getCompanyName());
 
             jsonObjectAddress.put("streetLines",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getStreetLines());
             jsonObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getCity());
@@ -150,10 +150,11 @@ public class BMSFedexService {
             jsonObjectContact.put("personName",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getPersonName());
             jsonObjectContact.put("emailAddress",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getEmailAddress());
             jsonObjectContact.put("phoneNumber",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getPhoneNumber());
-            jsonObjectContact.put("companyName",bmsfedexModel.getRequestedShipment().getRecipients().getContact().getCompanyName());
 
             jsonObjectWeight.put("units",bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems().getWeight().getUnits());
             jsonObjectWeight.put("value",bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems().getWeight().getValue());
+
+            jsonObjectValue.put("value",bmsfedexModel.getAccountNumber());
 
             jsonObjectShipper.put("address", jsonRObjectAddress);
             jsonObjectShipper.put("contact", jsonRObjectContact);
@@ -175,7 +176,7 @@ public class BMSFedexService {
 
             jsonObject.put("labelResponseOptions", bmsfedexModel.getLabelResponseOptions());
 
-            jsonObject.put("accountNumber", bmsfedexModel.getAccountNumber());
+            jsonObject.put("accountNumber", jsonObjectValue);
 
             logger.info("Payload for fedex------------->"+jsonObject.toString());
 
@@ -189,8 +190,8 @@ public class BMSFedexService {
             else {
                 logger.info("success");
                 String createfedexUrl = this.fedex_create_url;
-                UriComponentsBuilder URL = UriComponentsBuilder.fromHttpUrl(createfedexUrl).queryParam("param", jsonObject);
-                ;
+                UriComponentsBuilder URL = UriComponentsBuilder.fromHttpUrl(createfedexUrl)
+                        .queryParam("param", jsonObject);;
                 logger.info(URL.toUriString() + "--------------->This is the create fedex url");
                 try {
                     ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
@@ -201,7 +202,7 @@ public class BMSFedexService {
                     }
                 } catch (Exception ex) {
                     logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
-                    emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
+                  //  emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
 
                 }
             }
@@ -309,7 +310,7 @@ public class BMSFedexService {
 
         private RepoAddress setRepoAddress(BmsKitRequest bmsKitRequest) {
             RepoAddress address = new RepoAddress();
-            address.setStreetLines("425 S Euclid, Room 5120,");
+            address.setStreetLines("425 S Euclid, Room 5120");
             address.setCity("St Louis");
             address.setPostalCode("63110");
             address.setCountryCode("US");
@@ -322,7 +323,6 @@ public class BMSFedexService {
         contact.setPersonName(fullName);
         contact.setEmailAddress(bmsKitRequest.getRequesterEmail());
         contact.setPhoneNumber(bmsKitRequest.getRequesterPhoneNumber());
-        contact.setCompanyName(findSiteByID(bmsKitRequest.getRequestorSiteId()));
         return contact;
     }
 
@@ -331,7 +331,6 @@ public class BMSFedexService {
             contact.setPersonName("Laura Granderson");
             contact.setEmailAddress("tbank@wudosis.wustl.edu");
             contact.setPhoneNumber("(314)454-7615");
-            contact.setCompanyName("Alliance Biorepository at Washington University in St. Louis");
             return contact;
         }
 

@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class RequestedShipment {
     private Shipper shipper;
-    private Recipients recipients;
+    private List<Recipients> recipients;
     private String pickupType;
     private String serviceType;
     private String packagingType;
