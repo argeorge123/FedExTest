@@ -143,7 +143,7 @@ public class BMSFedexService {
             jsonRObjectContact.put("emailAddress",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getEmailAddress());
             jsonRObjectContact.put("phoneNumber",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPhoneNumber());
 
-            List<String> recipientsstreetLines = bmsfedexModel.getRequestedShipment().getRecipients().getRepoAddress().getStreetLines()
+            List<String> recipientsstreetLines = bmsfedexModel.getRequestedShipment().getRecipients().getRepoAddress().getStreetLines();
             jsonObjectAddress.put("streetLines",recipientsstreetLines);
             jsonObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getCity());
             jsonObjectAddress.put("postalCode",bmsfedexModel.getRequestedShipment().getRecipients().getAddress().getPostalCode());
