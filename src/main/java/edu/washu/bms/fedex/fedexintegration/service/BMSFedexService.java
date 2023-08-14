@@ -194,9 +194,9 @@ public class BMSFedexService {
                 logger.info(URL.toUriString() + "--------------->This is the create fedex url");
                 try {
                     ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
-                    logger.info("----------create kit response-------->" + response);
+                    logger.info("----------create fedex response-------->" + response);
                     if (response.getStatusCode() == HttpStatus.CREATED) {
-                        TransactionShipments transactionShipments = response.getBody().getTransactionShipments();
+                        Output output = response.getBody().getOutput();
                         logger.info("-------->transactionShipments------->" + transactionShipments);
                     }
                 } catch (Exception ex) {
