@@ -131,7 +131,7 @@ public class BMSFedexService {
             JSONObject jsonObjectLabelSpecification = new JSONObject();
             JSONObject jsonObjectRequestedPackageLineItems = new JSONObject();
             JSONObject jsonObjectWeight = new JSONObject();
-            JSONObject jsonObjectValue = new jsonObjectValue();
+
 
             List<String> repostreetLines = bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines();
             jsonRObjectAddress.put("streetLines",repostreetLines);
@@ -144,21 +144,22 @@ public class BMSFedexService {
             jsonRObjectContact.put("phoneNumber",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPhoneNumber());
 
             for (Recipients recipient : bmsfedexModel.getRequestedShipment().getRecipients()) {
-                List<String> streetLines = recipent.getAddress().getStreetLines();
-                jsonObjectAddress.put("streetLines", recipent.getAddress().getStreetLines());
-                jsonObjectAddress.put("city", recipent.getAddress().getCity());
-                jsonObjectAddress.put("postalCode", recipent.getAddress().getPostalCode());
-                jsonObjectAddress.put("countryCode", recipent.getAddress().getCountryCode());
+                List<String> streetLines = recipient.getAddress().getStreetLines();
+                jsonObjectAddress.put("streetLines", recipient.getAddress().getStreetLines());
+                jsonObjectAddress.put("city", recipient.getAddress().getCity());
+                jsonObjectAddress.put("postalCode", recipient.getAddress().getPostalCode());
+                jsonObjectAddress.put("countryCode", recipient.getAddress().getCountryCode());
 
-                jsonObjectContact.put("personName", recipent.getContact().getPersonName());
-                jsonObjectContact.put("emailAddress", recipent.getContact().getEmailAddress());
-                jsonObjectContact.put("phoneNumber", recipent.getContact().getPhoneNumber());
+                jsonObjectContact.put("personName", recipient.getContact().getPersonName());
+                jsonObjectContact.put("emailAddress", recipient.getContact().getEmailAddress());
+                jsonObjectContact.put("phoneNumber", recipient.getContact().getPhoneNumber());
             }
 
             for (RequestedPackageLineItems packageItem : bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems()) {
                 jsonObjectWeight.put("units", packageItem.getWeight().getUnits());
                 jsonObjectWeight.put("value", packageItem.getWeight().getValue());
             }
+
             jsonObjectValue.put("value",bmsfedexModel.getAccountNumber());
 
             jsonObjectShipper.put("address", jsonRObjectAddress);
