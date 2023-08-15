@@ -213,6 +213,7 @@ public class BMSFedexService {
                 logger.info("entered entity");
             }
             else {
+                logger.info("----------entity----------->"+ entity);
                 String createfedexUrl = this.fedex_create_url;
                 UriComponentsBuilder URL = UriComponentsBuilder.fromHttpUrl(createfedexUrl)
                         .queryParam("param", jsonObject);;
