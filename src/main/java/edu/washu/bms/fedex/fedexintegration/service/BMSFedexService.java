@@ -206,13 +206,12 @@ public class BMSFedexService {
 
 
 
-
-            HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(),getHttpHeaders());
+            HttpHeaders headers = getHttpHeaders();
+            HttpEntity<BmsFedexRequest> entity = new HttpEntity<>(jsonObject,headers);
             if(entity== null){
                 logger.info("entered entity");
             }
             else {
-                logger.info("success");
                 String createfedexUrl = this.fedex_create_url;
                 UriComponentsBuilder URL = UriComponentsBuilder.fromHttpUrl(createfedexUrl)
                         .queryParam("param", jsonObject);;
@@ -241,11 +240,9 @@ public class BMSFedexService {
     // Sets Headers for the Request
     private HttpHeaders getHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
-        //headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("content-type","application/json");
+        headers.setContentType(MediaType.APPLICATION_JSON);
         if (this.getAccessToken().length() > 0) {
             headers.set("authorization", "Bearer "+this.getAccessToken());
-            logger.info("headers--------->",headers);
         } else {
             logger.info(this.getAccessToken()+"------------->access token");
             logger.info("Unable to get access token and will rerun in 1 hour!");
