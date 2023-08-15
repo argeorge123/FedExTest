@@ -207,7 +207,7 @@ public class BMSFedexService {
 
 
             HttpHeaders headers = getHttpHeaders();
-            HttpEntity<BmsFedexRequest> entity = new HttpEntity<>(jsonObject,headers);
+            HttpEntity<BmsfedexModel> entity = new HttpEntity<>(jsonObject,headers);
             if(entity== null){
                 logger.info("entered entity");
             }
