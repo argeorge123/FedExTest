@@ -141,6 +141,7 @@ public class BMSFedexService {
             }
             jsonRObjectAddress.put("streetLines",repostreetLinesArray);
             jsonRObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCity());
+            jsonRObjectAddress.put("stateOrProvinceCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStateOrProvinceCode());
             jsonRObjectAddress.put("postalCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getPostalCode());
             jsonRObjectAddress.put("countryCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCountryCode());
 
@@ -159,6 +160,7 @@ public class BMSFedexService {
 
                 jsonObjectAddress.put("streetLines", streetLinesArray);
                 jsonObjectAddress.put("city", recipient.getAddress().getCity());
+                jsonObjectAddress.put("stateOrProvinceCode",recipient.getAddress().getStateOrProvinceCode());
                 jsonObjectAddress.put("postalCode", recipient.getAddress().getPostalCode());
                 jsonObjectAddress.put("countryCode", recipient.getAddress().getCountryCode());
 
@@ -323,6 +325,7 @@ public class BMSFedexService {
         streetLines.add(bmsKitRequest.getAddress1());
         address.setStreetLines(streetLines);
         address.setCity(bmsKitRequest.getCity());
+        address.setStateOrProvinceCode(bmsKitRequest.getState());
         address.setPostalCode(bmsKitRequest.getPostalCode());
         if("United States".equalsIgnoreCase(country)){
             address.setCountryCode("US");
@@ -338,6 +341,7 @@ public class BMSFedexService {
             streetLines.add("425 S Euclid, Room 5120");
             address.setStreetLines(streetLines);
             address.setCity("St Louis");
+            address.setStateOrProvinceCode("MO");
             address.setPostalCode("63110");
             address.setCountryCode("US");
             return address;

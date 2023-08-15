@@ -73,7 +73,7 @@ public class BmsKitRequest {
     private String address3;
     @Column(name = "CITY")
     private String city;
-    @Column(name = "state")
+    @Column(name = "STATE")
     private String state;
     @Column(name = "COUNTRY")
     private String country;

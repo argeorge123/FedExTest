@@ -12,5 +12,6 @@ public class RepoAddress {
     private List<String> streetLines;
     private String city;
     private String postalCode;
+    private String stateOrProvinceCode;
     private String countryCode;
 }
