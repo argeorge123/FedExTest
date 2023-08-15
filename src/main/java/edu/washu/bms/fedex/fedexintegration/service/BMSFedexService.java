@@ -241,14 +241,16 @@ public class BMSFedexService {
     // Sets Headers for the Request
     private HttpHeaders getHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        //headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("content-type"," application/json");
         if (this.getAccessToken().length() > 0) {
-            headers.set("Authorization", "Bearer "+this.getAccessToken());
+            headers.set("authorization", "Bearer "+this.getAccessToken());
         } else {
             logger.info(this.getAccessToken()+"------------->access token");
             logger.info("Unable to get access token and will rerun in 1 hour!");
         }
         return headers;
+        logger.info("headers--------->"+headers);
     }
 
     // Gets all Open Requests in a time interval from BioMS DB
@@ -262,7 +264,7 @@ public class BMSFedexService {
     // Gets the Bearer token from Mayo Authentication service
     private String getAccessToken() {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type","application/x-www-form-urlencoded");
+        headers.set("content-type","application/x-www-form-urlencoded");
         TokenPayload tokenPayload= new TokenPayload();
         tokenPayload.setMclient_id(client_id);
         tokenPayload.setMclient_secret(client_secret);
