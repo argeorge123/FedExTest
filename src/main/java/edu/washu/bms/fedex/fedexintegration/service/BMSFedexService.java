@@ -232,30 +232,30 @@ public class BMSFedexService {
 
                         // Create a custom ErrorDetails class to hold the error details
                         ErrorDetails errorDetails = new ErrorDetails();
-                        errorDetails.setTransactionId(errorResponse.getString("transactionId"));
-                        errorDetails.setCustomerTransactionId(errorResponse.getString("customerTransactionId"));
+                        errorDetails.setTransactionId((String) errorResponse.get("transactionId"));
+                        errorDetails.setCustomerTransactionId((String) errorResponse.get("customerTransactionId"));
 
-                        JSONArray errorsArray = errorResponse.getJSONArray("errors");
+                        JSONArray errorsArray = (JSONArray) errorResponse.get("errors");
                         List<Errors> errorList = new ArrayList<>();
 
                         for (int i = 0; i < errorsArray.length(); i++) {
                             JSONObject errorObj = errorsArray.getJSONObject(i);
                             Errors errors = new Errors();
-                            errors.setCode(errorObj.getString("code"));
+                            errors.setCode((String) errorObj.get("code"));
 
-                            JSONArray parameterListArray = errorObj.getJSONArray("ParameterList");
+                            JSONArray parameterListArray = (JSONArray) errorObj.get("ParameterList");
                             List<ParametersList> parametersList = new ArrayList<>();
 
                             for (int j = 0; j < parameterListArray.length(); j++) {
                                 JSONObject parameterObj = parameterListArray.getJSONObject(j);
                                 ParameterList parameterList = new ParameterList();
-                                parameterList.setValue(parameterObj.getString("VALUE"));
-                                parameterList.setKey(parameterObj.getString("key"));
+                                parameterList.setValue((String) parameterObj.get("value"));
+                                parameterList.setKey((String) parameterObj.get("key"));
                                 parametersList.add(parameterList);
                             }
 
                             error.setParameterList(parameterList);
-                            error.setMessage(errorObj.getString("message"));
+                            error.setMessage((String) errorObj.get("message"));
                             errorList.add(error);
                         }
 
