@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -227,8 +229,10 @@ public class BMSFedexService {
                 } catch (HttpClientErrorException.BadRequest ex) {
                     // Handle bad request exception
                     String responseBody = ex.getResponseBodyAsString();
+                    JSONParser jsonParser = new JSONParser();
+                    JSONObject errorResponse = null;
                     try {
-                        JSONObject errorResponse = new JSONObject(responseBody);
+                        errorResponse = (JSONObject) jsonParser.parse(responseBody);
 
                         // Create a custom ErrorDetails class to hold the error details
                         ErrorDetails errorDetails = new ErrorDetails();
@@ -238,20 +242,20 @@ public class BMSFedexService {
                         JSONArray errorsArray = (JSONArray) errorResponse.get("errors");
                         List<Errors> errorList = new ArrayList<>();
 
-                        for (int i = 0; i < errorsArray.length(); i++) {
+                        for (int i = 0; i < errorsArray.size(); i++) {
                             JSONObject errorObj = errorsArray.getJSONObject(i);
                             Errors errors = new Errors();
                             errors.setCode((String) errorObj.get("code"));
 
                             JSONArray parameterListArray = (JSONArray) errorObj.get("ParameterList");
-                            List<ParametersList> parametersList = new ArrayList<>();
+                            List<ParameterList> parameter = new ArrayList<>();
 
-                            for (int j = 0; j < parameterListArray.length(); j++) {
+                            for (int j = 0; j < parameterListArray.size(); j++) {
                                 JSONObject parameterObj = parameterListArray.getJSONObject(j);
                                 ParameterList parameterList = new ParameterList();
                                 parameterList.setValue((String) parameterObj.get("value"));
                                 parameterList.setKey((String) parameterObj.get("key"));
-                                parametersList.add(parameterList);
+                                parameter.add(parameterList);
                             }
 
                             error.setParameterList(parameterList);
