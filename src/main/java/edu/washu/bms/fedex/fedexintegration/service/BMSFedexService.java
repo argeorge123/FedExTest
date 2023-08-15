@@ -235,22 +235,22 @@ public class BMSFedexService {
                         errorDetails.setCustomerTransactionId(errorResponse.getString("customerTransactionId"));
 
                         JSONArray errorsArray = errorResponse.getJSONArray("errors");
-                        List<Error> errorList = new ArrayList<>();
+                        List<Errors> errorList = new ArrayList<>();
 
                         for (int i = 0; i < errorsArray.length(); i++) {
                             JSONObject errorObj = errorsArray.getJSONObject(i);
-                            Error error = new Error();
-                            error.setCode(errorObj.getString("code"));
+                            Errors errors = new Errors();
+                            errors.setCode(errorObj.getString("code"));
 
                             JSONArray parameterListArray = errorObj.getJSONArray("ParameterList");
-                            List<Parameter> parameterList = new ArrayList<>();
+                            List<ParametersList> parametersList = new ArrayList<>();
 
                             for (int j = 0; j < parameterListArray.length(); j++) {
                                 JSONObject parameterObj = parameterListArray.getJSONObject(j);
-                                Parameter parameter = new Parameter();
-                                parameter.setValue(parameterObj.getString("VALUE"));
-                                parameter.setKey(parameterObj.getString("key"));
-                                parameterList.add(parameter);
+                                ParameterList parameterList = new ParameterList();
+                                parameterList.setValue(parameterObj.getString("VALUE"));
+                                parameterList.setKey(parameterObj.getString("key"));
+                                parametersList.add(parameterList);
                             }
 
                             error.setParameterList(parameterList);
