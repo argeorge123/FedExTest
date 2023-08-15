@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,7 +34,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import javax.mail.MessagingException;
 import java.io.IOException;
-import org.springframework.web.client.HttpClientErrorException;
 
 
 import java.sql.Timestamp;
@@ -226,55 +223,7 @@ public class BMSFedexService {
                         Output output = response.getBody().getOutput();
                         logger.info("-------->transactionShipments------->" + output);
                     }
-                } catch (HttpClientErrorException.BadRequest ex) {
-                    // Handle bad request exception
-                    String responseBody = ex.getResponseBodyAsString();
-                    JSONParser jsonParser = new JSONParser();
-                    JSONObject errorResponse = null;
-                    try {
-                        errorResponse = (JSONObject) jsonParser.parse(responseBody);
-
-                        // Create a custom ErrorDetails class to hold the error details
-                        ErrorDetails errorDetails = new ErrorDetails();
-                        errorDetails.setTransactionId((String) errorResponse.get("transactionId"));
-                        errorDetails.setCustomerTransactionId((String) errorResponse.get("customerTransactionId"));
-
-                        JSONArray errorsArray = (JSONArray) errorResponse.get("errors");
-                        List<Errors> errorList = new ArrayList<>();
-
-                        for (int i = 0; i < errorsArray.size(); i++) {
-                            JSONObject errorObj = errorsArray.getJSONObject(i);
-                            Errors errors = new Errors();
-                            errors.setCode((String) errorObj.get("code"));
-
-                            JSONArray parameterListArray = (JSONArray) errorObj.get("ParameterList");
-                            List<ParameterList> parameter = new ArrayList<>();
-
-                            for (int j = 0; j < parameterListArray.size(); j++) {
-                                JSONObject parameterObj = parameterListArray.getJSONObject(j);
-                                ParameterList parameterList = new ParameterList();
-                                parameterList.setValue((String) parameterObj.get("value"));
-                                parameterList.setKey((String) parameterObj.get("key"));
-                                parameter.add(parameterList);
-                            }
-
-                            error.setParameterList(parameterList);
-                            error.setMessage((String) errorObj.get("message"));
-                            errorList.add(error);
-                        }
-
-                        errorDetails.setErrors(errorList);
-
-                        // Now you have a structured object with error details
-                        // You can log it or perform any other desired actions
-                    } catch (JSONException jsonEx) {
-                        logger.error("Error parsing JSON response: {}", jsonEx.getMessage());
-                    }
-                } catch (HttpServerErrorException.InternalServerError ex) {
-                    // Handle internal server error exception
-                } catch (HttpClientErrorException | HttpServerErrorException ex) {
-                    // Handle other HTTP error exceptions
-                }catch (Exception ex) {
+                } catch (Exception ex) {
                     logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
                   //  emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
 
