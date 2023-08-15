@@ -289,6 +289,50 @@ public class BMSFedexService {
                 accessToken =  response.getBody().getAccess_token();
                 logger.info(accessToken +"---> Got access token!");
             }
+        } catch (HttpClientErrorException.BadRequest ex) {
+            // Handle bad request exception
+            String responseBody = ex.getResponseBodyAsString();
+            try {
+                JSONObject errorResponse = new JSONObject(responseBody);
+
+                // Create a custom ErrorDetails class to hold the error details
+                ErrorDetails errorDetails = new ErrorDetails();
+                errorDetails.setTransactionId(errorResponse.getString("transactionId"));
+                errorDetails.setCustomerTransactionId(errorResponse.getString("customerTransactionId"));
+
+                JSONArray errorsArray = errorResponse.getJSONArray("errors");
+                List<Error> errorList = new ArrayList<>();
+
+                for (int i = 0; i < errorsArray.length(); i++) {
+                    JSONObject errorObj = errorsArray.getJSONObject(i);
+                    Error error = new Error();
+                    error.setCode(errorObj.getString("code"));
+
+                    JSONArray parameterListArray = errorObj.getJSONArray("ParameterList");
+                    List<Parameter> parameterList = new ArrayList<>();
+
+                    for (int j = 0; j < parameterListArray.length(); j++) {
+                        JSONObject parameterObj = parameterListArray.getJSONObject(j);
+                        Parameter parameter = new Parameter();
+                        parameter.setValue(parameterObj.getString("value"));
+                        parameter.setKey(parameterObj.getString("key"));
+                        parameterList.add(parameter);
+                    }
+
+                    error.setParameterList(parameterList);
+                    error.setMessage(errorObj.getString("message"));
+                    errorList.add(error);
+                }
+
+                errorDetails.setErrors(errorList);
+
+            } catch (JSONException jsonEx) {
+                logger.error("Error parsing JSON response: {}", jsonEx.getMessage());
+            }
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            // Handle internal server error exception
+        } catch (HttpClientErrorException | HttpServerErrorException ex) {
+            // Handle other HTTP error exceptions
         } catch (Exception ex) {
             //logger.debug("Unable to get access token due to = {}",ex.getMessage());
             logger.info("Unable to get access token due to = {}",ex.getMessage());
