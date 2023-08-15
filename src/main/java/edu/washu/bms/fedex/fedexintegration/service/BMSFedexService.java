@@ -245,12 +245,12 @@ public class BMSFedexService {
         headers.set("content-type"," application/json");
         if (this.getAccessToken().length() > 0) {
             headers.set("authorization", "Bearer "+this.getAccessToken());
+            logger.info("headers--------->",headers);
         } else {
             logger.info(this.getAccessToken()+"------------->access token");
             logger.info("Unable to get access token and will rerun in 1 hour!");
         }
         return headers;
-        logger.info("headers--------->",headers);
     }
 
     // Gets all Open Requests in a time interval from BioMS DB
