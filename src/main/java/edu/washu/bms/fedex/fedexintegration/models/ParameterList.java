@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @Getter
 @Setter
-public class Errors {
+public class ParameterList {
     private String value;
     private String key;
 }
