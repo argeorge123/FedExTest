@@ -34,6 +34,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import javax.mail.MessagingException;
 import java.io.IOException;
+import org.springframework.web.client.HttpClientErrorException;
 
 
 import java.sql.Timestamp;
