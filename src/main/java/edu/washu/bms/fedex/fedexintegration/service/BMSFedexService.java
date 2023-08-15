@@ -34,7 +34,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import javax.mail.MessagingException;
 import java.io.IOException;
-
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -223,10 +224,18 @@ public class BMSFedexService {
                         Output output = response.getBody().getOutput();
                         logger.info("-------->transactionShipments------->" + output);
                     }
-                } catch (Exception ex) {
-                    logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
+                } //catch (Exception ex) {
+                   // logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
                   //  emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
+                //}
+                catch (HttpClientErrorException | HttpServerErrorException ex) {
+                    logger.error("HTTP Error: {}", ex.getRawStatusCode());
 
+                    if (ex.getStatusCode() == HttpStatus.BAD_REQUEST && ex.getResponseBodyAsString() != null) {
+                        logger.error("Response Body: {}", ex.getResponseBodyAsString());
+                    }
+
+                    logger.error("Create fedex request Failed with reason = {}", ex.getMessage());
                 }
             }
         }
