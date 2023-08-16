@@ -247,7 +247,7 @@ public class BMSFedexService {
                                 }
 
                                 if (errorDetails.getErrors() != null) {
-                                    List<ErrorDetails> errorList = new ArrayList<>();
+                                    List<Errors> errorList = new ArrayList<>();
 
                                     for (Errors errorObj : errorDetails.getErrors()) {
                                         Errors error = new Errors();
