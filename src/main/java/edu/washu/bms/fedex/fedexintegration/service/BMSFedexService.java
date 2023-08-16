@@ -272,11 +272,10 @@ public class BMSFedexService {
                         } catch (JSONException jsonEx) {
                             logger.error("Error parsing JSON response: {}", jsonEx.getMessage());
                         }
-                    } catch (Exception ex) {
+                    }
+                }catch (Exception ex) {
                         logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
                     }
-                }
-
             }
         }
     }
