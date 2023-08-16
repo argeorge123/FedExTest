@@ -237,35 +237,37 @@ public class BMSFedexService {
                         String responseBody = ex.getResponseBodyAsString();
                         ObjectMapper objectMapper = new ObjectMapper();
                         try {
-                            Map<String, Object> errorResponse = objectMapper.readValue(responseBody, new TypeReference<Map<String,Object>>(){});
-
+                            BmsFedexResponse errorResponse = objectMapper.readValue(responseBody, BmsFedexResponse.class);
                             ErrorDetails errorDetails = new ErrorDetails();
-
-                            // Extract information from the errorResponse map
-                            if (errorResponse.containsKey("transactionId")) {
-                                String transactionId = (String) errorResponse.get("transactionId");
-                                errorDetails.setTransactionId(transactionId);
+                            if (errorResponse.getTransactionId() != null) {
+                                errorDetails.setTransactionId(errorResponse.getTransactionId());
                             }
 
-                            if (errorResponse.containsKey("customerTransactionId")) {
-                                String customerTransactionId = (String) errorResponse.get("customerTransactionId");
-                                errorDetails.setCustomerTransactionId(customerTransactionId);
+                            if (errorResponse.getCustomerTransactionId() != null) {
+                                errorDetails.setCustomerTransactionId(errorResponse.getCustomerTransactionId());
                             }
 
-                            if (errorResponse.containsKey("errors")) {
-                                List<Map<String, Object>> errorsArray = (List<Map<String, Object>>) errorResponse.get("errors");
+                            if (errorResponse.getErrors() != null) {
                                 List<Error> errorList = new ArrayList<>();
 
-                                for (Map<String, Object> errorObj : errorsArray) {
+                                for (Error errorObj : errorResponse.getErrors()) {
                                     Error error = new Error();
-                                    // Extract error properties and add to errorList
+                                    // Extract error properties from errorObj and add to errorList
+                                     error.setCode(errorObj.getCode());
+                                     error.setMessage(errorObj.getMessage());
+                                    // Extract and add parameterList
+                                    List<Parameter> parameterList = new ArrayList<>();
+                                    for (Parameter parameterObj : errorObj.getParameterList()) {
+                                        Parameter parameter = new Parameter();
+                                        parameter.setKey(parameterObj.getKey());
+                                        parameter.setValue(parameterObj.getValue());
+                                        parameterList.add(parameter);
+                                    }
+                                    error.setParameterList(parameterList);
+
                                     errorList.add(error);
                                 }
                                 errorDetails.setErrors(errorList);
-                            }
-
-                            // Now you have a structured ErrorDetails object with error information
-                            // You can further process, log, or handle the error details as needed.
 
                         } catch (IOException e) {
                             logger.info("Create fedex request Failed with reason = {}", e.getMessage());
