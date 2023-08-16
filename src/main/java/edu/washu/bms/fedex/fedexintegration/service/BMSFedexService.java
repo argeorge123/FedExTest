@@ -225,7 +225,8 @@ public class BMSFedexService {
                         Output output = response.getBody().getOutput();
                         logger.info("-------->transactionShipments------->" + output);
                     }
-                } catch (HttpClientErrorException ex) {
+                }
+           /**     catch (HttpClientErrorException ex) {
                     if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
                         // Handle bad request exception
                         String responseBody = ex.getResponseBodyAsString();
@@ -263,11 +264,12 @@ public class BMSFedexService {
                                 }
                                 errorResponse.setErrors(errorList);
                             }
-                        } catch (IOException e) {
+                        } **/
+            catch (IOException e) {
                             logger.info("Create fedex request Failed with reason = {}", e.getMessage());
-                        }
-                    }
-                }
+                       }
+                    //}
+                //}
             }
         }
     }
