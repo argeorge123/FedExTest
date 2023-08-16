@@ -239,6 +239,8 @@ public class BMSFedexService {
                         try {
                             Map<String, Object> errorResponse = objectMapper.readValue(responseBody, new TypeReference<Map<String,Object>>(){});
 
+                            ErrorDetails errorDetails = new ErrorDetails();
+
                             // Extract information from the errorResponse map
                             if (errorResponse.containsKey("transactionId")) {
                                 String transactionId = (String) errorResponse.get("transactionId");
