@@ -242,14 +242,14 @@ public class BMSFedexService {
                             }
 
                             if (errorResponse.getErrors() != null) {
-                                List<Errors> errorList = new ArrayList<>();
+                                List<ErrorDetails> errorList = new ArrayList<>();
 
-                                for (Errors errorObj : errorResponse.getErrors()) {
-                                    Errors error = new Errors();
+                                for (ErrorDetails errorObj : errorResponse.getErrors()) {
+                                    ErrorDetails error = new ErrorDetails();
                                     // Extract error properties from errorObj and add to errorList
                                     error.setCode(errorObj.getCode());
                                     error.setMessage(errorObj.getMessage());
-                                    // Extract and add parameterList
+
                                     List<Parameter> parameterList = new ArrayList<>();
                                     for (Parameter parameterObj : errorObj.getParameterList()) {
                                         Parameter parameter = new Parameter();
@@ -257,8 +257,8 @@ public class BMSFedexService {
                                         parameter.setValue(parameterObj.getValue());
                                         parameterList.add(parameter);
                                     }
-                                    error.setParameterList(parameterList);
 
+                                    error.setParameterList(parameterList);
                                     errorList.add(error);
                                 }
                                 errorDetails.setErrors(errorList);

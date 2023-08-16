@@ -12,31 +12,31 @@ import java.util.List;
 @Setter
 
 public class ErrorDetails {
-    private String transactionId;
-    private String customerTransactionId;
-    private List<Errors> errors;
+    private String code;
+    private String message;
+    private List<Parameter> parameterList;
 
-    public String getTransactionId() {
-        return transactionId;
+    public String getCode() {
+        return code;
     }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getCustomerTransactionId() {
-        return customerTransactionId;
+    public List<Parameter> getParameterList() {
+        return parameterList;
     }
 
-    public void setCustomerTransactionId(String customerTransactionId) {
-        this.customerTransactionId = customerTransactionId;
+    public void setParameterList(List<Parameter> parameterList) {
+        this.parameterList = parameterList;
     }
 
-    public List<Errors> getErrors() {
-        return errors;
+    public String getMessage() {
+        return message;
     }
 
-    public void setErrors(List<Errors> errors) {
-        this.errors = errors;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
