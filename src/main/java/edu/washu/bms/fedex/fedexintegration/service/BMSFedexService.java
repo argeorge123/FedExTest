@@ -231,8 +231,8 @@ public class BMSFedexService {
                         String responseBody = ex.getResponseBodyAsString();
                         ObjectMapper objectMapper = new ObjectMapper();
                         try {
-                            BmsFedexResponse errorResponse = objectMapper.readValue(responseBody, BmsFedexResponse.class);
-                            ErrorDetails errorDetails = new ErrorDetails();
+                            ErrorDetails errorDetails = objectMapper.readValue(responseBody, ErrorDetails.class);
+
                             if (errorResponse.getTransactionId() != null) {
                                 errorDetails.setTransactionId(errorResponse.getTransactionId());
                             }
