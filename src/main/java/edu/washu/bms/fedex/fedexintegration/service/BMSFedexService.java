@@ -212,10 +212,11 @@ public class BMSFedexService {
                 logger.info("entered entity");
             }
             else {
-                logger.info("----------entity----------->"+ entity);
+                logger.info("----------entity----------->" + entity);
                 String createfedexUrl = this.fedex_create_url;
                 UriComponentsBuilder URL = UriComponentsBuilder.fromHttpUrl(createfedexUrl)
-                        .queryParam("param", jsonObject);;
+                        .queryParam("param", jsonObject);
+                ;
                 logger.info(URL.toUriString() + "--------------->This is the create fedex url");
                 try {
                     ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
@@ -225,18 +226,57 @@ public class BMSFedexService {
                         logger.info("-------->transactionShipments------->" + output);
                     }
                 } //catch (Exception ex) {
-                   // logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
-                  //  emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
+                // logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
+                //  emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
                 //}
-                catch (HttpClientErrorException | HttpServerErrorException ex) {
-                    logger.error("HTTP Error: {}", ex.getRawStatusCode());
+                catch (HttpClientErrorException ex) {
+                    if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
+                        // Handle bad request exception
+                        String responseBody = ex.getResponseBodyAsString();
+                        try {
+                            JSONObject errorResponse = new JSONObject(responseBody);
 
-                    if (ex.getStatusCode() == HttpStatus.BAD_REQUEST && ex.getResponseBodyAsString() != null) {
-                        logger.error("Response Body: {}", ex.getResponseBodyAsString());
+                            // Create a custom ErrorDetails class to hold the error details
+                            ErrorDetails errorDetails = new ErrorDetails();
+                            errorDetails.setTransactionId(errorResponse.getString("transactionId"));
+                            errorDetails.setCustomerTransactionId(errorResponse.getString("customerTransactionId"));
+
+                            JSONArray errorsArray = errorResponse.getJSONArray("errors");
+                            List<Error> errorList = new ArrayList<>();
+
+                            for (int i = 0; i < errorsArray.length(); i++) {
+                                JSONObject errorObj = errorsArray.getJSONObject(i);
+                                Error error = new Error();
+                                error.setCode(errorObj.getString("code"));
+
+                                JSONArray parameterListArray = errorObj.getJSONArray("ParameterList");
+                                List<Parameter> parameterList = new ArrayList<>();
+
+                                for (int j = 0; j < parameterListArray.length(); j++) {
+                                    JSONObject parameterObj = parameterListArray.getJSONObject(j);
+                                    Parameter parameter = new Parameter();
+                                    parameter.setValue(parameterObj.getString("value"));
+                                    parameter.setKey(parameterObj.getString("key"));
+                                    parameterList.add(parameter);
+                                }
+
+                                error.setParameterList(parameterList);
+                                error.setMessage(errorObj.getString("message"));
+                                errorList.add(error);
+                            }
+
+                            errorDetails.setErrors(errorList);
+
+                            // Now you have a structured object with error details
+                            // You can log it or perform any other desired actions
+                        } catch (JSONException jsonEx) {
+                            logger.error("Error parsing JSON response: {}", jsonEx.getMessage());
+                        }
+                    } catch (Exception ex) {
+                        logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
                     }
-
-                    logger.error("Create fedex request Failed with reason = {}", ex.getMessage());
                 }
+
             }
         }
     }
@@ -249,7 +289,8 @@ public class BMSFedexService {
     // Sets Headers for the Request
     private HttpHeaders getHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        //headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("content-type","application/json");
         if (this.getAccessToken().length() > 0) {
             headers.set("authorization", "Bearer "+this.getAccessToken());
         } else {
