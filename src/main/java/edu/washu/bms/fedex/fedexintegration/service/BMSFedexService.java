@@ -264,12 +264,16 @@ public class BMSFedexService {
                                 }
                                 errorResponse.setErrors(errorList);
                             }
-                        } **/
-            catch (IOException e) {
+                        }
+                catch (IOException e) {
                             logger.info("Create fedex request Failed with reason = {}", e.getMessage());
                        }
-                    //}
-                //}
+                    }
+                } **/
+                catch (Exception ex) {
+                     logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
+                      //emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
+                    }
             }
         }
     }
