@@ -36,7 +36,7 @@ public class ErrorDetails {
         return errors;
     }
 
-    public void setErrors(List<Error> errors) {
+    public void setErrors(List<Errors> errors) {
         this.errors = errors;
     }
 }
