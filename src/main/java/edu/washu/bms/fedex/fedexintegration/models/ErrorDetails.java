@@ -15,4 +15,12 @@ public class ErrorDetails {
     private String transactionId;
     private String customerTransactionId;
     private List<Error> errors;
+
+    public List<ErrorDetails> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(List<ErrorDetails> errors) {
+        this.errors = errors;
+    }
 }

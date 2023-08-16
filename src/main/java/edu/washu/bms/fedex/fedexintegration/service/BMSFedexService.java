@@ -242,10 +242,10 @@ public class BMSFedexService {
                             }
 
                             if (errorResponse.getErrors() != null) {
-                                List<Errors> errorList = new ArrayList<>();
+                                List<Error> errorList = new ArrayList<>();
 
-                                for (Errors errorObj : errorResponse.getErrors()) {
-                                    Errors errors = new Error();
+                                for (Error errorObj : errorResponse.getErrors()) {
+                                    Errors errors = new Errors();
                                     // Extract error properties from errorObj and add to errorList
                                     errors.setCode(errorObj.getCode());
                                     errors.setMessage(errorObj.getMessage());
