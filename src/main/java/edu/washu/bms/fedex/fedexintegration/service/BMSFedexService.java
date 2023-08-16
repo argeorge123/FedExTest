@@ -219,6 +219,7 @@ public class BMSFedexService {
                 ;
                 logger.info(URL.toUriString() + "--------------->This is the create fedex url");
                 try {
+                    logger.info("----------inside create fedex response try-------->");
                     ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
                     logger.info("----------create fedex response-------->" + response);
                     if (response.getStatusCode() == HttpStatus.CREATED) {
@@ -227,6 +228,7 @@ public class BMSFedexService {
                     }
                 }
                 catch (HttpClientErrorException.BadRequest ex) {
+                    logger.info("----------inside create fedex response catch-------->");
                         // Handle bad request exception
                         String responseBody = ex.getResponseBodyAsString();
                         if (responseBody != null && !responseBody.isEmpty()) {
@@ -237,11 +239,11 @@ public class BMSFedexService {
                                 logger.info("---------- errorResponse----------->"+errorResponse);
                                 ErrorDetails errorDetails = new ErrorDetails();
                                 if (errorResponse.getTransactionId() != null) {
-                                    errorResponse.setTransactionId(errorResponse.getTransactionId());
+                                    errorDetails.setTransactionId(errorResponse.getTransactionId());
                                 }
 
                                 if (errorResponse.getCustomerTransactionId() != null) {
-                                    errorResponse.setCustomerTransactionId(errorResponse.getCustomerTransactionId());
+                                    errorDetails.setCustomerTransactionId(errorResponse.getCustomerTransactionId());
                                 }
 
                                 if (errorResponse.getErrors() != null) {
@@ -264,7 +266,7 @@ public class BMSFedexService {
                                         error.setParameterList(parameterList);
                                         errorList.add(error);
                                     }
-                                    errorResponse.setErrors(errorList);
+                                    errorDetails.setErrors(errorList);
                                 }
                             } catch (IOException e) {
                                 logger.info("Failed to map error response: {}", e.getMessage());
