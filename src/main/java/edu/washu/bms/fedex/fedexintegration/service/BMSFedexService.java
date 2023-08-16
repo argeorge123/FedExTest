@@ -226,54 +226,53 @@ public class BMSFedexService {
                         logger.info("-------->transactionShipments------->" + output);
                     }
                 }
-           /**     catch (HttpClientErrorException ex) {
+                catch (HttpClientErrorException ex) {
                     if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
                         // Handle bad request exception
                         String responseBody = ex.getResponseBodyAsString();
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        try {
-                            BmsFedexResponse errorResponse = objectMapper.readValue(responseBody, BmsFedexResponse.class);
-                            ErrorDetails errorDetails = new ErrorDetails();
-                            if (errorResponse.getTransactionId() != null) {
-                                errorResponse.setTransactionId(errorResponse.getTransactionId());
-                            }
-
-                            if (errorResponse.getCustomerTransactionId() != null) {
-                                errorResponse.setCustomerTransactionId(errorResponse.getCustomerTransactionId());
-                            }
-
-                            if (errorResponse.getErrors() != null) {
-                                List<ErrorDetails> errorList = new ArrayList<>();
-
-                                for (ErrorDetails errorObj : errorResponse.getErrors()) {
-                                    ErrorDetails error = new ErrorDetails();
-                                    // Extract error properties from errorObj and add to errorList
-                                    error.setCode(errorObj.getCode());
-                                    error.setMessage(errorObj.getMessage());
-
-                                    List<Parameter> parameterList = new ArrayList<>();
-                                    for (Parameter parameterObj : errorObj.getParameterList()) {
-                                        Parameter parameter = new Parameter();
-                                        parameter.setKey(parameterObj.getKey());
-                                        parameter.setValue(parameterObj.getValue());
-                                        parameterList.add(parameter);
-                                    }
-
-                                    error.setParameterList(parameterList);
-                                    errorList.add(error);
+                        if (responseBody != null && !responseBody.isEmpty()) {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            try {
+                                BmsFedexResponse errorResponse = objectMapper.readValue(responseBody, BmsFedexResponse.class);
+                                ErrorDetails errorDetails = new ErrorDetails();
+                                if (errorResponse.getTransactionId() != null) {
+                                    errorResponse.setTransactionId(errorResponse.getTransactionId());
                                 }
-                                errorResponse.setErrors(errorList);
+
+                                if (errorResponse.getCustomerTransactionId() != null) {
+                                    errorResponse.setCustomerTransactionId(errorResponse.getCustomerTransactionId());
+                                }
+
+                                if (errorResponse.getErrors() != null) {
+                                    List<ErrorDetails> errorList = new ArrayList<>();
+
+                                    for (ErrorDetails errorObj : errorResponse.getErrors()) {
+                                        ErrorDetails error = new ErrorDetails();
+                                        // Extract error properties from errorObj and add to errorList
+                                        error.setCode(errorObj.getCode());
+                                        error.setMessage(errorObj.getMessage());
+
+                                        List<Parameter> parameterList = new ArrayList<>();
+                                        for (Parameter parameterObj : errorObj.getParameterList()) {
+                                            Parameter parameter = new Parameter();
+                                            parameter.setKey(parameterObj.getKey());
+                                            parameter.setValue(parameterObj.getValue());
+                                            parameterList.add(parameter);
+                                        }
+
+                                        error.setParameterList(parameterList);
+                                        errorList.add(error);
+                                    }
+                                    errorResponse.setErrors(errorList);
+                                }
+                            } catch (IOException e) {
+                                logger.info("Failed to map error response: {}", e.getMessage());
                             }
+                        } else {
+                            logger.error("Received an empty error response body");
                         }
-                catch (IOException e) {
-                            logger.info("Create fedex request Failed with reason = {}", e.getMessage());
-                       }
                     }
-                } **/
-                catch (Exception ex) {
-                     logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
-                      //emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
-                    }
+                }
             }
         }
     }
