@@ -253,8 +253,8 @@ public class BMSFedexService {
                                 for (Error errorObj : errorResponse.getErrors()) {
                                     Error error = new Error();
                                     // Extract error properties from errorObj and add to errorList
-                                     error.setCode(errorObj.getCode());
-                                     error.setMessage(errorObj.getMessage());
+                                    error.setCode(errorObj.getCode());
+                                    error.setMessage(errorObj.getMessage());
                                     // Extract and add parameterList
                                     List<Parameter> parameterList = new ArrayList<>();
                                     for (Parameter parameterObj : errorObj.getParameterList()) {
@@ -268,7 +268,7 @@ public class BMSFedexService {
                                     errorList.add(error);
                                 }
                                 errorDetails.setErrors(errorList);
-
+                            }
                         } catch (IOException e) {
                             logger.info("Create fedex request Failed with reason = {}", e.getMessage());
                         }
