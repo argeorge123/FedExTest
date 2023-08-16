@@ -264,11 +264,12 @@ public class BMSFedexService {
                                     }
                                     errorResponse.setErrors(errorList);
                                 }
-                            } catch (JSONException jsonEx) {
-                                logger.error("Error parsing JSON response: {}", jsonEx.getMessage());
+                            } catch (IOException e) {
+                                logger.info("Failed to map error response: {}", e.getMessage());
                             }
                         }
                 }
+
                 catch (Exception ex) {
                     logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
                    // emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
