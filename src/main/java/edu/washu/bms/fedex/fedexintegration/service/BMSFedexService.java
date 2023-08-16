@@ -36,6 +36,8 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
