@@ -264,8 +264,8 @@ public class BMSFedexService {
                                     }
                                     errorResponse.setErrors(errorList);
                                 }
-                            } catch (IOException e) {
-                                logger.info("Failed to map error response: {}", e.getMessage());
+                            } catch (JSONException jsonEx) {
+                                logger.error("Error parsing JSON response: {}", jsonEx.getMessage());
                             }
                         }
                 }
