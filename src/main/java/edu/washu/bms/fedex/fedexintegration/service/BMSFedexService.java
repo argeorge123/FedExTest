@@ -233,8 +233,9 @@ public class BMSFedexService {
                     if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
                         // Handle bad request exception
                         String responseBody = ex.getResponseBodyAsString();
+                        ObjectMapper objectMapper = new ObjectMapper();
                         try {
-                            JSONObject errorResponse = new JSONObject(responseBody);
+                            Map<String, Object> errorResponse = objectMapper.readValue(responseBody, new TypeReference<Map<String,Object>>(){});
 
                             // Create a custom ErrorDetails class to hold the error details
                             ErrorDetails errorDetails = new ErrorDetails();
@@ -269,8 +270,8 @@ public class BMSFedexService {
 
                             // Now you have a structured object with error details
                             // You can log it or perform any other desired actions
-                        } catch (JSONException jsonEx) {
-                            logger.error("Error parsing JSON response: {}", jsonEx.getMessage());
+                        } catch (IOException ioEx) {
+                            logger.error("Error parsing JSON response: {}", ioEx.getMessage());
                         }
                     }
                 }catch (Exception ex) {
