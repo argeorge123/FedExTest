@@ -235,22 +235,22 @@ public class BMSFedexService {
                             logger.info("---------- inside BadRequest----------->");
                             ObjectMapper objectMapper = new ObjectMapper();
                             try {
-                                BmsFedexResponse errorResponse = objectMapper.readValue(responseBody, BmsFedexResponse.class);
+                                ErrorDetails errorDetails = objectMapper.readValue(responseBody, ErrorDetails.class);
                                 logger.info("---------- errorResponse----------->"+errorResponse);
-                                ErrorDetails errorDetails = new ErrorDetails();
-                                if (errorResponse.getTransactionId() != null) {
+
+                                if (errorDetails.getTransactionId() != null) {
                                     errorDetails.setTransactionId(errorResponse.getTransactionId());
                                 }
 
-                                if (errorResponse.getCustomerTransactionId() != null) {
+                                if (errorDetails.getCustomerTransactionId() != null) {
                                     errorDetails.setCustomerTransactionId(errorResponse.getCustomerTransactionId());
                                 }
 
-                                if (errorResponse.getErrors() != null) {
+                                if (errorDetails.getErrors() != null) {
                                     List<ErrorDetails> errorList = new ArrayList<>();
 
-                                    for (ErrorDetails errorObj : errorResponse.getErrors()) {
-                                        ErrorDetails error = new ErrorDetails();
+                                    for (ErrorDetails errorObj : errorDetails.getErrors()) {
+                                        Errors error = new Errors();
                                         // Extract error properties from errorObj and add to errorList
                                         error.setCode(errorObj.getCode());
                                         error.setMessage(errorObj.getMessage());
