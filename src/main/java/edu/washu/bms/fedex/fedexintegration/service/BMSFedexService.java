@@ -226,8 +226,7 @@ public class BMSFedexService {
                         logger.info("-------->transactionShipments------->" + output);
                     }
                 }
-                catch (HttpClientErrorException ex) {
-                    if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
+                catch (HttpClientErrorException.BadRequest ex) {
                         // Handle bad request exception
                         String responseBody = ex.getResponseBodyAsString();
                         if (responseBody != null && !responseBody.isEmpty()) {
@@ -268,10 +267,11 @@ public class BMSFedexService {
                             } catch (IOException e) {
                                 logger.info("Failed to map error response: {}", e.getMessage());
                             }
-                        } else {
-                            logger.error("Received an empty error response body");
                         }
-                    }
+                }
+                catch (Exception ex) {
+                    logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
+                   // emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
                 }
             }
         }
