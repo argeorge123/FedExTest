@@ -12,12 +12,12 @@ public class Parameter {
     private String value;
     private String key;
 
-    public String getVALUE() {
-        return VALUE;
+    public String getValue() {
+        return value;
     }
 
-    public void setVALUE(String VALUE) {
-        this.VALUE = VALUE;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getKey() {
