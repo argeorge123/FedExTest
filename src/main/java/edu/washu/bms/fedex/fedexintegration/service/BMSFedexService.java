@@ -231,8 +231,8 @@ public class BMSFedexService {
                         String responseBody = ex.getResponseBodyAsString();
                         ObjectMapper objectMapper = new ObjectMapper();
                         try {
-                            ErrorDetails errorDetails = objectMapper.readValue(responseBody, ErrorDetails.class);
-
+                            BmsFedexResponse errorResponse = objectMapper.readValue(responseBody, BmsFedexResponse.class);
+                            ErrorDetails errorDetails = new ErrorDetails();
                             if (errorResponse.getTransactionId() != null) {
                                 errorDetails.setTransactionId(errorResponse.getTransactionId());
                             }
@@ -242,9 +242,9 @@ public class BMSFedexService {
                             }
 
                             if (errorResponse.getErrors() != null) {
-                                List<Error> errorList = new ArrayList<>();
+                                List<Errors> errorList = new ArrayList<>();
 
-                                for (Error errorObj : errorResponse.getErrors()) {
+                                for (Errors errorObj : errorResponse.getErrors()) {
                                     Errors error = new Errors();
                                     // Extract error properties from errorObj and add to errorList
                                     error.setCode(errorObj.getCode());
