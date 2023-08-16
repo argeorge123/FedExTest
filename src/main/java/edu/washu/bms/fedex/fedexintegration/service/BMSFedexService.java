@@ -240,12 +240,19 @@ public class BMSFedexService {
                             Map<String, Object> errorResponse = objectMapper.readValue(responseBody, new TypeReference<Map<String,Object>>(){});
 
                             // Create a custom ErrorDetails class to hold the error details
-                            ErrorDetails errorDetails = new ErrorDetails();
-                            errorDetails.setTransactionId(errorResponse.getString("transactionId"));
-                            errorDetails.setCustomerTransactionId(errorResponse.getString("customerTransactionId"));
+                            if (errorResponse.has("transactionId")) {
+                                String transactionId = errorResponse.getString("transactionId");
+                                errorDetails.setTransactionId(transactionId);
+                            }
 
-                            JSONArray errorsArray = errorResponse.getJSONArray("errors");
-                            List<Error> errorList = new ArrayList<>();
+                            if (errorResponse.has("customerTransactionId")) {
+                                String customerTransactionId = errorResponse.getString("customerTransactionId");
+                                errorDetails.setCustomerTransactionId(customerTransactionId);
+                            }
+
+                            if (errorResponse.has("errors")) {
+                                JSONArray errorsArray = errorResponse.getJSONArray("errors");
+                                List<Error> errorList = new ArrayList<>();
 
                             for (int i = 0; i < errorsArray.length(); i++) {
                                 JSONObject errorObj = errorsArray.getJSONObject(i);
