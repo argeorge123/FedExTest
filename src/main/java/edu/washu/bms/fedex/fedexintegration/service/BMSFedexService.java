@@ -230,9 +230,11 @@ public class BMSFedexService {
                         // Handle bad request exception
                         String responseBody = ex.getResponseBodyAsString();
                         if (responseBody != null && !responseBody.isEmpty()) {
+                            logger.info("---------- inside BadRequest----------->");
                             ObjectMapper objectMapper = new ObjectMapper();
                             try {
                                 BmsFedexResponse errorResponse = objectMapper.readValue(responseBody, BmsFedexResponse.class);
+                                logger.info("---------- errorResponse----------->"+errorResponse);
                                 ErrorDetails errorDetails = new ErrorDetails();
                                 if (errorResponse.getTransactionId() != null) {
                                     errorResponse.setTransactionId(errorResponse.getTransactionId());
