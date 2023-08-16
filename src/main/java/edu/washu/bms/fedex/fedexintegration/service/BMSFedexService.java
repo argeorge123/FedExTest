@@ -227,11 +227,7 @@ public class BMSFedexService {
                         Output output = response.getBody().getOutput();
                         logger.info("-------->transactionShipments------->" + output);
                     }
-                } //catch (Exception ex) {
-                // logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
-                //  emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
-                //}
-                catch (HttpClientErrorException ex) {
+                }  catch (HttpClientErrorException ex) {
                     if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
                         // Handle bad request exception
                         String responseBody = ex.getResponseBodyAsString();
@@ -276,7 +272,7 @@ public class BMSFedexService {
                 }
             }
         }
-    }
+
 
     private List<BmsKitRequest> findKitRequest(){
         List<BmsKitRequest> nBmsKitRequest= bmsFedexRepository.findKitRequest(Long.valueOf(biomsKitRequestID));

@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 
-public class ErrorDetails {
+public class Errors {
     private String code;
     private String message;
     private List<Parameter> parameterList;
