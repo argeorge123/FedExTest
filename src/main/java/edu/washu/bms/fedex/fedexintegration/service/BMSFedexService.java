@@ -236,20 +236,20 @@ public class BMSFedexService {
                             ObjectMapper objectMapper = new ObjectMapper();
                             try {
                                 ErrorDetails errorDetails = objectMapper.readValue(responseBody, ErrorDetails.class);
-                                logger.info("---------- errorResponse----------->"+errorResponse);
+                                logger.info("---------- errorResponse----------->"+errorDetails);
 
                                 if (errorDetails.getTransactionId() != null) {
-                                    errorDetails.setTransactionId(errorResponse.getTransactionId());
+                                    errorDetails.setTransactionId(errorDetails.getTransactionId());
                                 }
 
                                 if (errorDetails.getCustomerTransactionId() != null) {
-                                    errorDetails.setCustomerTransactionId(errorResponse.getCustomerTransactionId());
+                                    errorDetails.setCustomerTransactionId(errorDetails.getCustomerTransactionId());
                                 }
 
                                 if (errorDetails.getErrors() != null) {
                                     List<ErrorDetails> errorList = new ArrayList<>();
 
-                                    for (ErrorDetails errorObj : errorDetails.getErrors()) {
+                                    for (Errors errorObj : errorDetails.getErrors()) {
                                         Errors error = new Errors();
                                         // Extract error properties from errorObj and add to errorList
                                         error.setCode(errorObj.getCode());
