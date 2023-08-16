@@ -14,7 +14,7 @@ import java.util.List;
 public class ErrorDetails {
     private String transactionId;
     private String customerTransactionId;
-    private List<ErrorDetails> errors;
+    private List<Errors> errors;
 
     public String getTransactionId() {
         return transactionId;
@@ -32,11 +32,11 @@ public class ErrorDetails {
         this.customerTransactionId = customerTransactionId;
     }
 
-    public List<ErrorDetails> getErrors() {
+    public List<Errors> getErrors() {
         return errors;
     }
 
-    public void setErrors(List<ErrorDetails> errors) {
+    public void setErrors(List<Errors> errors) {
         this.errors = errors;
     }
 }
