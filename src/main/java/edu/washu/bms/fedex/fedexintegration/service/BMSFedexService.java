@@ -239,53 +239,37 @@ public class BMSFedexService {
                         try {
                             Map<String, Object> errorResponse = objectMapper.readValue(responseBody, new TypeReference<Map<String,Object>>(){});
 
-                            // Create a custom ErrorDetails class to hold the error details
-                            if (errorResponse.has("transactionId")) {
-                                String transactionId = errorResponse.getString("transactionId");
+                            // Extract information from the errorResponse map
+                            if (errorResponse.containsKey("transactionId")) {
+                                String transactionId = (String) errorResponse.get("transactionId");
                                 errorDetails.setTransactionId(transactionId);
                             }
 
-                            if (errorResponse.has("customerTransactionId")) {
-                                String customerTransactionId = errorResponse.getString("customerTransactionId");
+                            if (errorResponse.containsKey("customerTransactionId")) {
+                                String customerTransactionId = (String) errorResponse.get("customerTransactionId");
                                 errorDetails.setCustomerTransactionId(customerTransactionId);
                             }
 
-                            if (errorResponse.has("errors")) {
-                                JSONArray errorsArray = errorResponse.getJSONArray("errors");
+                            if (errorResponse.containsKey("errors")) {
+                                List<Map<String, Object>> errorsArray = (List<Map<String, Object>>) errorResponse.get("errors");
                                 List<Error> errorList = new ArrayList<>();
 
-                                for (int i = 0; i < errorsArray.length(); i++) {
-                                    JSONObject errorObj = errorsArray.getJSONObject(i);
+                                for (Map<String, Object> errorObj : errorsArray) {
                                     Error error = new Error();
-                                    error.setCode(errorObj.getString("code"));
-
-                                    JSONArray parameterListArray = errorObj.getJSONArray("ParameterList");
-                                    List<Parameter> parameterList = new ArrayList<>();
-
-                                    for (int j = 0; j < parameterListArray.length(); j++) {
-                                        JSONObject parameterObj = parameterListArray.getJSONObject(j);
-                                        Parameter parameter = new Parameter();
-                                        parameter.setValue(parameterObj.getString("value"));
-                                        parameter.setKey(parameterObj.getString("key"));
-                                        parameterList.add(parameter);
-                                    }
-
-                                    error.setParameterList(parameterList);
-                                    error.setMessage(errorObj.getString("message"));
+                                    // Extract error properties and add to errorList
                                     errorList.add(error);
                                 }
-
                                 errorDetails.setErrors(errorList);
+                            }
 
-                            }  // Now you have a structured object with error details
-                            // You can log it or perform any other desired actions
-                        } catch (IOException ioEx) {
-                            logger.error("Error parsing JSON response: {}", ioEx.getMessage());
+                            // Now you have a structured ErrorDetails object with error information
+                            // You can further process, log, or handle the error details as needed.
+
+                        } catch (IOException e) {
+                            logger.info("Create fedex request Failed with reason = {}", e.getMessage());
                         }
                     }
-                }catch (Exception ex) {
-                        logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
-                    }
+                }
             }
         }
     }
