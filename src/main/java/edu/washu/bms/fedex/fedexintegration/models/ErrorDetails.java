@@ -12,5 +12,7 @@ import java.util.List;
 @Setter
 
 public class ErrorDetails {
+    private String transactionId;
+    private String customerTransactionId;
     private List<Error> errors;
 }
