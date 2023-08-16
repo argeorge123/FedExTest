@@ -112,9 +112,9 @@ public class BMSFedexService {
         Calendar cal = Calendar.getInstance();
         Date currentTime = cal.getTime();
         DateFormat dateFormat = new SimpleDateFormat("HH");
-        String formattedDate= dateFormat.format(currentTime);
+        String formattedDate = dateFormat.format(currentTime);
         //This is in a loop and it processes all the requests one by one inside this for loop.
-        for(BmsKitRequest bmsKitRequest: bmsKitRequests) {
+        for (BmsKitRequest bmsKitRequest : bmsKitRequests) {
             BmsfedexModel bmsfedexModel = new BmsfedexModel();
             bmsfedexModel.setRequestedShipment(setRequestedShipment(bmsKitRequest));
             bmsfedexModel.setLabelResponseOptions("URL_ONLY");
@@ -122,8 +122,8 @@ public class BMSFedexService {
 
             HttpEntity<BmsfedexModel> request = new HttpEntity<>(bmsfedexModel);
 
-            JSONObject jsonObject= new JSONObject();
-            JSONObject jsonObjectRequestedShipment= new JSONObject();
+            JSONObject jsonObject = new JSONObject();
+            JSONObject jsonObjectRequestedShipment = new JSONObject();
             JSONObject jsonObjectShipper = new JSONObject();
             JSONObject jsonRObjectAddress = new JSONObject();
             JSONObject jsonRObjectContact = new JSONObject();
@@ -142,15 +142,15 @@ public class BMSFedexService {
             for (String streetLine : repostreetLines) {
                 repostreetLinesArray.add(streetLine);
             }
-            jsonRObjectAddress.put("streetLines",repostreetLinesArray);
-            jsonRObjectAddress.put("city",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCity());
-            jsonRObjectAddress.put("stateOrProvinceCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStateOrProvinceCode());
-            jsonRObjectAddress.put("postalCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getPostalCode());
-            jsonRObjectAddress.put("countryCode",bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCountryCode());
+            jsonRObjectAddress.put("streetLines", repostreetLinesArray);
+            jsonRObjectAddress.put("city", bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCity());
+            jsonRObjectAddress.put("stateOrProvinceCode", bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStateOrProvinceCode());
+            jsonRObjectAddress.put("postalCode", bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getPostalCode());
+            jsonRObjectAddress.put("countryCode", bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getCountryCode());
 
-            jsonRObjectContact.put("personName",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPersonName());
-            jsonRObjectContact.put("emailAddress",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getEmailAddress());
-            jsonRObjectContact.put("phoneNumber",bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPhoneNumber());
+            jsonRObjectContact.put("personName", bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPersonName());
+            jsonRObjectContact.put("emailAddress", bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getEmailAddress());
+            jsonRObjectContact.put("phoneNumber", bmsfedexModel.getRequestedShipment().getShipper().getRepoContact().getPhoneNumber());
 
             for (Recipients recipient : bmsfedexModel.getRequestedShipment().getRecipients()) {
                 List<String> streetLines = recipient.getAddress().getStreetLines();
@@ -163,7 +163,7 @@ public class BMSFedexService {
 
                 jsonObjectAddress.put("streetLines", streetLinesArray);
                 jsonObjectAddress.put("city", recipient.getAddress().getCity());
-                jsonObjectAddress.put("stateOrProvinceCode",recipient.getAddress().getStateOrProvinceCode());
+                jsonObjectAddress.put("stateOrProvinceCode", recipient.getAddress().getStateOrProvinceCode());
                 jsonObjectAddress.put("postalCode", recipient.getAddress().getPostalCode());
                 jsonObjectAddress.put("countryCode", recipient.getAddress().getCountryCode());
 
@@ -177,7 +177,7 @@ public class BMSFedexService {
                 jsonObjectWeight.put("value", packageItem.getWeight().getValue());
             }
 
-            jsonObjectValue.put("value",bmsfedexModel.getAccountNumber());
+            jsonObjectValue.put("value", bmsfedexModel.getAccountNumber());
 
             jsonObjectShipper.put("address", jsonRObjectAddress);
             jsonObjectShipper.put("contact", jsonRObjectContact);
@@ -185,35 +185,33 @@ public class BMSFedexService {
             jsonObjectRecipients.put("contact", jsonObjectContact);
             JSONArray recipientShipArray = new JSONArray();
             recipientShipArray.add(jsonObjectRecipients);
-            jsonObjectRequestedPackageLineItems.put("weight",jsonObjectWeight);
+            jsonObjectRequestedPackageLineItems.put("weight", jsonObjectWeight);
             JSONArray requestedPackageLineItemsArray = new JSONArray();
             requestedPackageLineItemsArray.add(jsonObjectRequestedPackageLineItems);
-            jsonObjectShippingChargesPayment.put("paymentType",bmsfedexModel.getRequestedShipment().getShippingChargesPayment().getPaymentType());
-            jsonObjectLabelSpecification.put("labelStockType",bmsfedexModel.getRequestedShipment().getLabelSpecification().getLabelStockType());
-            jsonObjectLabelSpecification.put("imageType",bmsfedexModel.getRequestedShipment().getLabelSpecification().getImageType());
+            jsonObjectShippingChargesPayment.put("paymentType", bmsfedexModel.getRequestedShipment().getShippingChargesPayment().getPaymentType());
+            jsonObjectLabelSpecification.put("labelStockType", bmsfedexModel.getRequestedShipment().getLabelSpecification().getLabelStockType());
+            jsonObjectLabelSpecification.put("imageType", bmsfedexModel.getRequestedShipment().getLabelSpecification().getImageType());
             jsonObjectRequestedShipment.put("shipper", jsonObjectShipper);
             jsonObjectRequestedShipment.put("recipients", recipientShipArray);
             jsonObjectRequestedShipment.put("pickupType", bmsfedexModel.getRequestedShipment().getPickupType());
             jsonObjectRequestedShipment.put("serviceType", bmsfedexModel.getRequestedShipment().getServiceType());
             jsonObjectRequestedShipment.put("packagingType", bmsfedexModel.getRequestedShipment().getPackagingType());
             jsonObjectRequestedShipment.put("shippingChargesPayment", jsonObjectShippingChargesPayment);
-            jsonObjectRequestedShipment.put("labelSpecification",jsonObjectLabelSpecification);
-            jsonObjectRequestedShipment.put("requestedPackageLineItems",requestedPackageLineItemsArray);
+            jsonObjectRequestedShipment.put("labelSpecification", jsonObjectLabelSpecification);
+            jsonObjectRequestedShipment.put("requestedPackageLineItems", requestedPackageLineItemsArray);
             jsonObject.put("requestedShipment", jsonObjectRequestedShipment);
 
             jsonObject.put("labelResponseOptions", bmsfedexModel.getLabelResponseOptions());
 
             jsonObject.put("accountNumber", jsonObjectValue);
 
-            logger.info("Payload for fedex------------->"+jsonObject.toString());
+            logger.info("Payload for fedex------------->" + jsonObject.toString());
 
 
-
-            HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(),getHttpHeaders());
-            if(entity== null){
+            HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), getHttpHeaders());
+            if (entity == null) {
                 logger.info("entered entity");
-            }
-            else {
+            } else {
                 logger.info("----------entity----------->" + entity);
                 String createfedexUrl = this.fedex_create_url;
                 UriComponentsBuilder URL = UriComponentsBuilder.fromHttpUrl(createfedexUrl)
@@ -227,7 +225,7 @@ public class BMSFedexService {
                         Output output = response.getBody().getOutput();
                         logger.info("-------->transactionShipments------->" + output);
                     }
-                }  catch (HttpClientErrorException ex) {
+                } catch (HttpClientErrorException ex) {
                     if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
                         // Handle bad request exception
                         String responseBody = ex.getResponseBodyAsString();
@@ -272,7 +270,7 @@ public class BMSFedexService {
                 }
             }
         }
-
+    }
 
     private List<BmsKitRequest> findKitRequest(){
         List<BmsKitRequest> nBmsKitRequest= bmsFedexRepository.findKitRequest(Long.valueOf(biomsKitRequestID));
