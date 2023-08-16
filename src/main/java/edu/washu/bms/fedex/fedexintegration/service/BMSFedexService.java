@@ -254,30 +254,30 @@ public class BMSFedexService {
                                 JSONArray errorsArray = errorResponse.getJSONArray("errors");
                                 List<Error> errorList = new ArrayList<>();
 
-                            for (int i = 0; i < errorsArray.length(); i++) {
-                                JSONObject errorObj = errorsArray.getJSONObject(i);
-                                Error error = new Error();
-                                error.setCode(errorObj.getString("code"));
+                                for (int i = 0; i < errorsArray.length(); i++) {
+                                    JSONObject errorObj = errorsArray.getJSONObject(i);
+                                    Error error = new Error();
+                                    error.setCode(errorObj.getString("code"));
 
-                                JSONArray parameterListArray = errorObj.getJSONArray("ParameterList");
-                                List<Parameter> parameterList = new ArrayList<>();
+                                    JSONArray parameterListArray = errorObj.getJSONArray("ParameterList");
+                                    List<Parameter> parameterList = new ArrayList<>();
 
-                                for (int j = 0; j < parameterListArray.length(); j++) {
-                                    JSONObject parameterObj = parameterListArray.getJSONObject(j);
-                                    Parameter parameter = new Parameter();
-                                    parameter.setValue(parameterObj.getString("value"));
-                                    parameter.setKey(parameterObj.getString("key"));
-                                    parameterList.add(parameter);
+                                    for (int j = 0; j < parameterListArray.length(); j++) {
+                                        JSONObject parameterObj = parameterListArray.getJSONObject(j);
+                                        Parameter parameter = new Parameter();
+                                        parameter.setValue(parameterObj.getString("value"));
+                                        parameter.setKey(parameterObj.getString("key"));
+                                        parameterList.add(parameter);
+                                    }
+
+                                    error.setParameterList(parameterList);
+                                    error.setMessage(errorObj.getString("message"));
+                                    errorList.add(error);
                                 }
 
-                                error.setParameterList(parameterList);
-                                error.setMessage(errorObj.getString("message"));
-                                errorList.add(error);
-                            }
+                                errorDetails.setErrors(errorList);
 
-                            errorDetails.setErrors(errorList);
-
-                            // Now you have a structured object with error details
+                            }  // Now you have a structured object with error details
                             // You can log it or perform any other desired actions
                         } catch (IOException ioEx) {
                             logger.error("Error parsing JSON response: {}", ioEx.getMessage());
