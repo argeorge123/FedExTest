@@ -234,11 +234,11 @@ public class BMSFedexService {
                             BmsFedexResponse errorResponse = objectMapper.readValue(responseBody, BmsFedexResponse.class);
                             ErrorDetails errorDetails = new ErrorDetails();
                             if (errorResponse.getTransactionId() != null) {
-                                errorDetails.setTransactionId(errorResponse.getTransactionId());
+                                errorResponse.setTransactionId(errorResponse.getTransactionId());
                             }
 
                             if (errorResponse.getCustomerTransactionId() != null) {
-                                errorDetails.setCustomerTransactionId(errorResponse.getCustomerTransactionId());
+                                errorResponse.setCustomerTransactionId(errorResponse.getCustomerTransactionId());
                             }
 
                             if (errorResponse.getErrors() != null) {
@@ -261,7 +261,7 @@ public class BMSFedexService {
                                     error.setParameterList(parameterList);
                                     errorList.add(error);
                                 }
-                                errorDetails.setErrors(errorList);
+                                errorResponse.setErrors(errorList);
                             }
                         } catch (IOException e) {
                             logger.info("Create fedex request Failed with reason = {}", e.getMessage());
