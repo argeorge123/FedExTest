@@ -223,11 +223,11 @@ public class BMSFedexService {
                     ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
                     logger.info("----------create fedex response-------->" + response);
                     if (response.getStatusCode() == HttpStatus.CREATED) {
-                        Output output = response.getBody().getOutput();
-                        logger.info("-------->transactionShipments------->" + output);
+                        BmsFedexResponse responseBody = response.getBody();
+                        return responseBody;
                     }
                 }
-                catch (HttpClientErrorException.BadRequest ex) {
+            /**    catch (HttpClientErrorException.BadRequest ex) {
                     logger.info("----------inside create fedex response catch-------->");
                         // Handle bad request exception
                         String responseBody = ex.getResponseBodyAsString();
@@ -272,7 +272,7 @@ public class BMSFedexService {
                                 logger.info("Failed to map error response: {}", e.getMessage());
                             }
                         }
-                }
+                } **/
 
                 catch (Exception ex) {
                     logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
