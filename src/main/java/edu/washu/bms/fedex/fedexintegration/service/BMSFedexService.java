@@ -224,7 +224,7 @@ public class BMSFedexService {
                     logger.info("----------create fedex response-------->" + response);
                     if (response.getStatusCode() == HttpStatus.CREATED) {
                         BmsFedexResponse responseBody = response.getBody();
-                        return responseBody;
+                        logger.info("------------responseBody---------->" +responseBody);
                     }
                 }
             /**    catch (HttpClientErrorException.BadRequest ex) {
