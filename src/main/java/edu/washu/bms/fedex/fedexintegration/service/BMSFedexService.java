@@ -300,7 +300,8 @@ public class BMSFedexService {
     private HttpHeaders getHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
         //headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("content-type","application/json");
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("x-locale","en_US");
         if (this.getAccessToken().length() > 0) {
             headers.set("authorization", "Bearer "+this.getAccessToken());
         } else {
