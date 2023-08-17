@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @Getter
 @Setter
+
 public class BmsFedexResponse {
     private String transactionId;
     private String customerTransactionId;

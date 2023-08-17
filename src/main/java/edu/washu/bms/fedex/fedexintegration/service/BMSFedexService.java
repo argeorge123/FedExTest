@@ -222,7 +222,16 @@ public class BMSFedexService {
                     logger.info("----------inside create fedex response try-------->");
                     ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
                     logger.info("----------create fedex response-------->" + response);
-                    if (response.getStatusCode() == HttpStatus.CREATED) {
+                    BmsFedexResponse responseBody = response.getBody();
+                    logger.info("------------responseBody---------->" +responseBody);
+                    String transactionId = responseBody.getTransactionId();
+                    logger.info("------------transactionId---------->" +transactionId);
+                    String customerTransactionId = responseBody.getCustomerTransactionId();
+                    logger.info("------------customerTransactionId---------->" +customerTransactionId);
+                    Output output = responseBody.getOutput();
+                    logger.info("------------output---------->" +output);
+
+                   /** if (response.getStatusCode() == HttpStatus.CREATED) {
                         BmsFedexResponse responseBody = response.getBody();
                         logger.info("------------responseBody---------->" +responseBody);
                     }
