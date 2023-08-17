@@ -220,7 +220,8 @@ public class BMSFedexService {
                 logger.info(URL.toUriString() + "--------------->This is the create fedex url");
                 try {
                     logger.info("----------inside create fedex response try-------->");
-                    ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
+                    //ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
+                    ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(createfedexUrl, HttpMethod.POST, entity, BmsFedexResponse.class);
                     logger.info("----------create fedex response-------->" + response);
                     BmsFedexResponse responseBody = response.getBody();
                     logger.info("------------responseBody---------->" +responseBody);
