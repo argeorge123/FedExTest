@@ -33,21 +33,6 @@ public interface BMSFedexRepository extends JpaRepository<BmsKitRequest, Long> {
     @Query("select c from BmsKitRequest c where c.id = :extReqID")
     List<BmsKitRequest> findKitRequest(@Param("extReqID") Long extReqID);
 
-//After getting notifications, updates the Status, Tracking number, Comments and Modified date.
-    @Transactional
-    @Modifying
-    @Query("update BmsKitRequest c set c.kitRequestStatus = :status,c.shipmentTrackingNumber= :trackingNumber, c.repositoryComments = :repositoryComments, c.modifiedTimeStamp = :modifiedTimeStamp where c.id = :extReqID")
-    void updateNotificationStatus(@Param("status") String status,
-                         @Param("extReqID") Long extReqID,
-                         @Param("trackingNumber") String trackingNumber,
-                         @Param("repositoryComments") String repositoryComments,
-                         @Param("modifiedTimeStamp") Timestamp modifiedTimeStamp);
-
-    @Transactional
-    @Modifying
-    @Query("update BmsKitRequest c set c.kitShipmentDate =:pstatusChangeDate where c.id = :extReqID")
-    void updateShippingDate(@Param("extReqID") Long extReqID,
-                            @Param("pstatusChangeDate") Date pstatusChangeDate);
 
 // Updates the status to "In process" once the request has been sent to Mayo
     @Transactional

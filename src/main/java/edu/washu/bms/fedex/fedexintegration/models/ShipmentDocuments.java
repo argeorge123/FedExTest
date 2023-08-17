@@ -13,20 +13,4 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ShipmentDocuments {
     private String trackingNumber;
     private String url;
-
-    public String getTrackingNumber() {
-        return trackingNumber;
-    }
-
-    public void setTrackingNumber(String trackingNumber) {
-        this.trackingNumber = trackingNumber;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }
