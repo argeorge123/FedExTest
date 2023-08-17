@@ -12,12 +12,4 @@ import java.util.List;
 
 public class Output {
     private List<TransactionShipments> transactionShipments;
-
-    public List<TransactionShipments> getTransactionShipments() {
-        return transactionShipments;
-    }
-
-    public void setTransactionShipments(List<TransactionShipments> transactionShipments) {
-        this.transactionShipments = transactionShipments;
-    }
 }
