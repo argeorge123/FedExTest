@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Data
 @ResponseBody
 
-public class ShipmentDocuments {
+public class PieceResponses {
+    private String masterTrackingNumber;
     private String trackingNumber;
     private String url;
 }

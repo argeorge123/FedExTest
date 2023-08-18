@@ -13,5 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 
 public class TransactionShipments {
-    private List<ShipmentDocuments> shipmentDocuments;
+    private String masterTrackingNumber;
+    private String serviceType;
+    private List<PieceResponses> pieceResponses;
 }
