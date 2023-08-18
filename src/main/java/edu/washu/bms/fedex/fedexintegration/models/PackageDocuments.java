@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Data
 @ResponseBody
 
-public class PieceResponses {
-    private String masterTrackingNumber;
-    private String trackingNumber;
-    private List<PackageDocuments> packageDocuments;
+public class PackageDocuments {
+    private String url;
 }
