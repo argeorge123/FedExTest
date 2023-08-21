@@ -243,6 +243,7 @@ public class BMSFedexService {
                         }
                         String kStatus = "Ready to send";
                         bmsFedexRepository.updateKitStatus(kStatus,bmsKitRequest.getId());
+                        logger.info("-------------kit id------------->" + bmsKitRequest.getId());
                     }
                 }
             /**    catch (HttpClientErrorException.BadRequest ex) {
