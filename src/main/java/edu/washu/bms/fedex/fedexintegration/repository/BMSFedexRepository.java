@@ -17,9 +17,10 @@ import java.text.SimpleDateFormat;
 public interface BMSFedexRepository extends JpaRepository<BmsKitRequest, Long> {
 //ALL BIOMS DATABASE HANDELING FOR READ AND UPDATE ARE DONE HERE
 //Finding all open requests for process.
-    @Query("select c from BmsKitRequest c where c.repository= :repository and c.kitRequestStatus= :kit_request_status and (c.shippingOption =:shipping_Regular or c.shippingOption =:shipping_Expedited)")
+    @Query("select c from BmsKitRequest c where c.repository= :repository and c.kitRequestStatus= :kit_request_status and c.shippingLabel =:shipping_label and (c.shippingOption =:shipping_Regular or c.shippingOption =:shipping_Expedited)")
     List<BmsKitRequest> findAllOpenRequests(@Param("repository") int repository,
                                             @Param("kit_request_status") String kit_request_status,
+                                            @Param("shipping_label") String shipping_label,
                                             @Param("shipping_Regular") String shipping_Regular,
                                             @Param("shipping_Expedited") String shipping_Expedited);
 
