@@ -223,19 +223,27 @@ public class BMSFedexService {
                     //ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(URL.build().toUri(), HttpMethod.POST, entity, BmsFedexResponse.class);
                     ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(createfedexUrl, HttpMethod.POST, entity, BmsFedexResponse.class);
                     logger.info("----------create fedex response-------->" + response);
-                    BmsFedexResponse responseBody = response.getBody();
-                    logger.info("------------responseBody---------->" +responseBody);
-                    String transactionId = responseBody.getTransactionId();
-                    logger.info("------------transactionId---------->" +transactionId);
-                    String customerTransactionId = responseBody.getCustomerTransactionId();
-                    logger.info("------------customerTransactionId---------->" +customerTransactionId);
-                    Output output = responseBody.getOutput();
-                    logger.info("------------output---------->" +output);
 
-                   /** if (response.getStatusCode() == HttpStatus.CREATED) {
-                        BmsFedexResponse responseBody = response.getBody();
-                        logger.info("------------responseBody---------->" +responseBody);
-                    }**/
+                    if (response.getStatusCode() == HttpStatus.CREATED) {
+
+                        Output output = response.getBody().getOutput();
+                        List<TransactionShipments> transactionShipmentsList = output.getTransactionShipments();
+
+                        for (TransactionShipments transactionShipments : transactionShipmentsList) {
+                            String masterTrackNumber = transactionShipments.getMasterTrackingNumber();
+                            List<PieceResponses> pieceResponsesList = transactionShipments.getPieceResponses();
+                            for (PieceResponses pieceResponse : pieceResponsesList) {
+                                List<PackageDocuments> packageDocumentsList = pieceResponse.getPackageDocuments();
+
+                                for (PackageDocuments packageDocument : packageDocumentsList) {
+                                    String url = packageDocument.getUrl();
+                                    bmsFedexRepository.updateShippingLabel(url,masterTrackNumber,bmsKitRequest.getId());
+                                }
+                            }
+                        }
+                        String kStatus = "Ready to send";
+                        bmsFedexRepository.updateKitStatus(kStatus,bmsKitRequest.getId());
+                    }
                 }
             /**    catch (HttpClientErrorException.BadRequest ex) {
                     logger.info("----------inside create fedex response catch-------->");
@@ -290,11 +298,6 @@ public class BMSFedexService {
                 }
             }
         }
-    }
-
-    private List<BmsKitRequest> findKitRequest(){
-        List<BmsKitRequest> nBmsKitRequest= bmsFedexRepository.findKitRequest(Long.valueOf(biomsKitRequestID));
-        return nBmsKitRequest;
     }
 
     // Sets Headers for the Request
@@ -503,7 +506,12 @@ public class BMSFedexService {
 
     private AccountNumber setAccountNumber(BmsKitRequest bmsKitRequest){
       AccountNumber accountNumber = new AccountNumber();
-        accountNumber.setValue("740561073");
+        String shippingOption = bmsKitRequest.getShippingOption();
+        if ("Regular (within 10 business days from today)".equalsIgnoreCase(shippingOption)) {
+            accountNumber.setValue("740561073");
+        }else if ("Expedited via FedEx (within 1-2 business days from today)".equalsIgnoreCase(shippingOption)) {
+            accountNumber.setValue(bmsKitRequest.getRequesterFedexNo());
+        }
         return accountNumber;
     }
 }

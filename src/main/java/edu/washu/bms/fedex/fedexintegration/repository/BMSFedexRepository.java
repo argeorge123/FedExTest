@@ -23,21 +23,20 @@ public interface BMSFedexRepository extends JpaRepository<BmsKitRequest, Long> {
                                             @Param("shipping_Regular") String shipping_Regular,
                                             @Param("shipping_Expedited") String shipping_Expedited);
 
- //Updating the kit request transaction with Mayo kit request ID.
+
+
+// Updates the shipping label with url
     @Transactional
     @Modifying
-   @Query("update BmsKitRequest c set c.externalRequestId = :reqID where c.id = :extReqID")
-    void updateExternalRequestID(@Param("reqID") String reqID,
-                                 @Param("extReqID") Long extReqID);
+    @Query("update BmsKitRequest c set c.shippingLabel = :url,c.shipmentTrackingNumber =:masterTrackNumber where c.id = :id")
+    void updateShippingLabel(@Param("url") String url,
+                             @Param("masterTrackNumber") String masterTrackNumber,
+                             @Param("id") Long id);
 
-    @Query("select c from BmsKitRequest c where c.id = :extReqID")
-    List<BmsKitRequest> findKitRequest(@Param("extReqID") Long extReqID);
-
-
-// Updates the status to "In process" once the request has been sent to Mayo
+    // Updates the status to "Ready to send" once the request has been sent to Mayo
     @Transactional
     @Modifying
-    @Query("update BmsKitRequest c set c.kitRequestStatus = :status where c.id = :extReqID")
+    @Query("update BmsKitRequest c set c.kitRequestStatus = :status where c.id = :id")
     void updateKitStatus(@Param("status") String status,
-                                    @Param("extReqID") Long id);
+                         @Param("id") Long id);
 }
