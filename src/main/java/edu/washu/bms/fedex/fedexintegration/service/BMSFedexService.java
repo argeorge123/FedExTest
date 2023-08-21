@@ -224,7 +224,7 @@ public class BMSFedexService {
                     ResponseEntity<BmsFedexResponse> response = this.restTemplate.exchange(createfedexUrl, HttpMethod.POST, entity, BmsFedexResponse.class);
                     logger.info("----------create fedex response-------->" + response);
 
-                    if (response.getStatusCode() == HttpStatus.CREATED) {
+                    if (response.getStatusCode() == HttpStatus.OK) {
 
                         Output output = response.getBody().getOutput();
                         List<TransactionShipments> transactionShipmentsList = output.getTransactionShipments();
