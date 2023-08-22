@@ -177,10 +177,13 @@ public class BMSFedexService {
             for (RequestedPackageLineItems packageItem : bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems()) {
                 jsonObjectWeight.put("units", packageItem.getWeight().getUnits());
                 jsonObjectWeight.put("value", packageItem.getWeight().getValue());
-                CustomerReferences customerReferences = packageItem.getCustomerReferences().get(0);
-                jsonObjectCustomerReferences.put("customerReferenceType", customerReferences.getCustomerReferenceType());
-                jsonObjectCustomerReferences.put("value", customerReferences.getValue());
-
+                List<CustomerReferences> customerReferencesList = packageItem.getCustomerReferences();
+                for (CustomerReferences customerReferences : customerReferencesList) {
+                    jsonObjectCustomerReferences.put("customerReferenceType", customerReferences.getCustomerReferenceType());
+                    jsonObjectCustomerReferences.put("value", customerReferences.getValue());
+                }
+                jsonObjectRequestedPackageLineItems.put("weight", jsonObjectWeight);
+                jsonObjectRequestedPackageLineItems.put("customerReferences", jsonObjectCustomerReferences);
             }
 
             jsonObjectValue.put("value", bmsfedexModel.getAccountNumber());
@@ -191,8 +194,6 @@ public class BMSFedexService {
             jsonObjectRecipients.put("contact", jsonObjectContact);
             JSONArray recipientShipArray = new JSONArray();
             recipientShipArray.add(jsonObjectRecipients);
-            jsonObjectRequestedPackageLineItems.put("weight", jsonObjectWeight);
-            jsonObjectRequestedPackageLineItems.put("customerReferences", jsonObjectCustomerReferences);
             JSONArray requestedPackageLineItemsArray = new JSONArray();
             requestedPackageLineItemsArray.add(jsonObjectRequestedPackageLineItems);
             jsonObjectShippingChargesPayment.put("paymentType", bmsfedexModel.getRequestedShipment().getShippingChargesPayment().getPaymentType());
