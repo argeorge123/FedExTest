@@ -9,6 +9,6 @@ import java.util.List;
 @Setter
 @Data
 public class RequestedPackageLineItems {
+    private List<CustomerReferences> customerReferences;
     private Weight weight;
-
 }

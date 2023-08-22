@@ -134,6 +134,8 @@ public class BMSFedexService {
             JSONObject jsonObjectLabelSpecification = new JSONObject();
             JSONObject jsonObjectRequestedPackageLineItems = new JSONObject();
             JSONObject jsonObjectWeight = new JSONObject();
+            JSONArray jsonArrayCustomerReferences = new JSONArray();
+            JSONObject jsonObjectCustomerReferences = new JSONObject();
             JSONObject jsonObjectValue = new JSONObject();
 
             List<String> repostreetLines = bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines();
@@ -175,6 +177,10 @@ public class BMSFedexService {
             for (RequestedPackageLineItems packageItem : bmsfedexModel.getRequestedShipment().getRequestedPackageLineItems()) {
                 jsonObjectWeight.put("units", packageItem.getWeight().getUnits());
                 jsonObjectWeight.put("value", packageItem.getWeight().getValue());
+                CustomerReferences customerReferences = packageItem.getCustomerReferences().get(0);
+                jsonObjectCustomerReferences.put("customerReferenceType", customerReferences.getCustomerReferenceType());
+                jsonObjectCustomerReferences.put("value", customerReferences.getValue());
+
             }
 
             jsonObjectValue.put("value", bmsfedexModel.getAccountNumber());
@@ -186,6 +192,7 @@ public class BMSFedexService {
             JSONArray recipientShipArray = new JSONArray();
             recipientShipArray.add(jsonObjectRecipients);
             jsonObjectRequestedPackageLineItems.put("weight", jsonObjectWeight);
+            jsonObjectRequestedPackageLineItems.put("customerReferences", jsonObjectCustomerReferences);
             JSONArray requestedPackageLineItemsArray = new JSONArray();
             requestedPackageLineItemsArray.add(jsonObjectRequestedPackageLineItems);
             jsonObjectShippingChargesPayment.put("paymentType", bmsfedexModel.getRequestedShipment().getShippingChargesPayment().getPaymentType());
@@ -241,9 +248,9 @@ public class BMSFedexService {
                                 }
                             }
                         }
-                      /**  String kStatus = "Ready to send";
+                        String kStatus = "Ready to Ship";
                         bmsFedexRepository.updateKitStatus(kStatus,bmsKitRequest.getId());
-                        logger.info("-------------kit id------------->" + bmsKitRequest.getId()); **/
+                        logger.info("-------------kit id------------->" + bmsKitRequest.getId());
                     }
                 }
             /**    catch (HttpClientErrorException.BadRequest ex) {
@@ -451,6 +458,13 @@ public class BMSFedexService {
          return weight;
      }
 
+    private CustomerReferences setCustomerReferences(BmsKitRequest bmsKitRequest){
+        CustomerReferences customerReferences = new CustomerReferences();
+        customerReferences.setCustomerReferenceType("CUSTOMER_REFERENCE");
+        customerReferences.setValue(bmsKitRequest.getId()+ "," +bmsKitRequest.getShortTitle());
+        return customerReferences;
+    }
+
     private RequestedShipment setRequestedShipment(BmsKitRequest bmsKitRequest) {
         RequestedShipment requestedShipment = new RequestedShipment();
         Shipper shipper = new Shipper();
@@ -460,6 +474,8 @@ public class BMSFedexService {
         LabelSpecification labelSpecification = new LabelSpecification();
         List<RequestedPackageLineItems> packageLineItemList = new ArrayList<>();
         RequestedPackageLineItems requestedPackageLineItems = new RequestedPackageLineItems();
+        List<CustomerReferences> customerReferencesList = new ArrayList<>();
+
 
         // Setting shipper(repo) address and contact
         shipper.setRepoAddress(setRepoAddress(bmsKitRequest));
@@ -499,6 +515,8 @@ public class BMSFedexService {
 
         //Setting the weight of the package
         requestedPackageLineItems.setWeight(setWeight(bmsKitRequest));
+        customerReferencesList.add(setCustomerReferences(bmsKitRequest));
+        requestedPackageLineItems.setCustomerReferences(customerReferencesList);
         packageLineItemList.add(requestedPackageLineItems);
         requestedShipment.setRequestedPackageLineItems(packageLineItemList);
 
