@@ -181,9 +181,10 @@ public class BMSFedexService {
                 for (CustomerReferences customerReferences : customerReferencesList) {
                     jsonObjectCustomerReferences.put("customerReferenceType", customerReferences.getCustomerReferenceType());
                     jsonObjectCustomerReferences.put("value", customerReferences.getValue());
+                    jsonArrayCustomerReferences.add(jsonObjectCustomerReferences);
                 }
                 jsonObjectRequestedPackageLineItems.put("weight", jsonObjectWeight);
-                jsonObjectRequestedPackageLineItems.put("customerReferences", jsonObjectCustomerReferences);
+                jsonObjectRequestedPackageLineItems.put("customerReferences", jsonArrayCustomerReferences);
             }
 
             jsonObjectValue.put("value", bmsfedexModel.getAccountNumber());
