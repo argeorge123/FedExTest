@@ -308,7 +308,7 @@ public class BMSFedexService {
                     bmsFedexRepository.updateKitStatus(kStatus,bmsKitRequest.getId());
                     String kError = "Create FedEx Shipment Failed. Please verify the shipping address";
                     bmsFedexRepository.updateErrorStatus(kError,bmsKitRequest.getId());
-                    emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed. Please verify the shipping address");
+                    emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed. Please verify the shipping address for kit request ID: " +bmsKitRequest.getId());
                 }
             }
         }
