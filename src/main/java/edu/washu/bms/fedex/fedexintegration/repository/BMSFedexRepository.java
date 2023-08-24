@@ -33,7 +33,7 @@ public interface BMSFedexRepository extends JpaRepository<BmsKitRequest, Long> {
                              @Param("masterTrackNumber") String masterTrackNumber,
                              @Param("id") Long id);
 
-    // Updates the status to "Ready to send" / "Failed to create Ship" once the request has been sent to Fedex
+    // Updates the status to "Ready to send" / "Create shipment failed" once the request has been sent to Fedex
     @Transactional
     @Modifying
     @Query("update BmsKitRequest c set c.kitRequestStatus = :status where c.id = :id")
