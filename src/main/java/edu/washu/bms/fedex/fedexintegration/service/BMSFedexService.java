@@ -304,7 +304,11 @@ public class BMSFedexService {
 
                 catch (Exception ex) {
                     logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
-                   // emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed with reason = {} " + ex.getMessage());
+                    String kStatus = "Failed to create Ship";
+                    bmsFedexRepository.updateKitStatus(kStatus,bmsKitRequest.getId());
+                    String kError = "Create FedEx Shipment Failed. Please verify the shipping address";
+                    bmsFedexRepository.updateErrorStatus(kError,bmsKitRequest.getId());
+                    emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed. Please verify the shipping address");
                 }
             }
         }
@@ -399,7 +403,88 @@ public class BMSFedexService {
         streetLines.add(bmsKitRequest.getAddress1());
         address.setStreetLines(streetLines);
         address.setCity(bmsKitRequest.getCity());
-        address.setStateOrProvinceCode(bmsKitRequest.getState());
+        String state = bmsKitRequest.getState().toLowerCase();
+        Map<String, String> stateNameToCodeMap = new HashMap<>();
+// Load US State Names.
+        stateNameToCodeMap.put("alabama","AL");
+        stateNameToCodeMap.put("alaska","AK");
+        stateNameToCodeMap.put("arizona","AZ");
+        stateNameToCodeMap.put("arkansas","AR");
+        stateNameToCodeMap.put("california","CA");
+        stateNameToCodeMap.put("colorado","CO");
+        stateNameToCodeMap.put("connecticut","CT");
+        stateNameToCodeMap.put("delaware","DE");
+        stateNameToCodeMap.put("district of columbia","DC");
+        stateNameToCodeMap.put("florida","FL");
+        stateNameToCodeMap.put("georgia","GA");
+        stateNameToCodeMap.put("hawaii","HI");
+        stateNameToCodeMap.put("idaho","ID");
+        stateNameToCodeMap.put("illinois","IL");
+        stateNameToCodeMap.put("indiana","IN");
+        stateNameToCodeMap.put("iowa","IA");
+        stateNameToCodeMap.put("kansas","KS");
+        stateNameToCodeMap.put("kentucky","KY");
+        stateNameToCodeMap.put("louisiana","LA");
+        stateNameToCodeMap.put("maine","ME");
+        stateNameToCodeMap.put("maryland","MD");
+        stateNameToCodeMap.put("massachusetts","MA");
+        stateNameToCodeMap.put("michigan","MI");
+        stateNameToCodeMap.put("minnesota","MN");
+        stateNameToCodeMap.put("mississippi","MS");
+        stateNameToCodeMap.put("missouri","MO");
+        stateNameToCodeMap.put("montana","MT");
+        stateNameToCodeMap.put("nebraska","NE");
+        stateNameToCodeMap.put("nevada","NV");
+        stateNameToCodeMap.put("new hampshire","NH");
+        stateNameToCodeMap.put("new jersey","NJ");
+        stateNameToCodeMap.put("new mexico","NM");
+        stateNameToCodeMap.put("new york","NY");
+        stateNameToCodeMap.put("north carolina","NC");
+        stateNameToCodeMap.put("north dakota","ND");
+        stateNameToCodeMap.put("ohio","OH");
+        stateNameToCodeMap.put("oklahoma","OK");
+        stateNameToCodeMap.put("oregon","OR");
+        stateNameToCodeMap.put("pennsylvania","PA");
+        stateNameToCodeMap.put("rhode island","RI");
+        stateNameToCodeMap.put("south carolina","SC");
+        stateNameToCodeMap.put("south dakota","SD");
+        stateNameToCodeMap.put("tennessee","TN");
+        stateNameToCodeMap.put("texas","TX");
+        stateNameToCodeMap.put("utah","UT");
+        stateNameToCodeMap.put("vermont","VT");
+        stateNameToCodeMap.put("virginia","VA");
+        stateNameToCodeMap.put("washington","WA");
+        stateNameToCodeMap.put("west virginia","WV");
+        stateNameToCodeMap.put("wisconsin","WI");
+        stateNameToCodeMap.put("wyoming","WY");
+        stateNameToCodeMap.put("guam", "GU");
+        stateNameToCodeMap.put("puerto rico","PR");
+        stateNameToCodeMap.put("virgin islands","VI");
+        stateNameToCodeMap.put("armed forces (ae)","AE");
+        stateNameToCodeMap.put("armed forces americas","AA");
+        stateNameToCodeMap.put("armed forces pacific","AP");
+
+
+        // Load Canada State Names.
+        stateNameToCodeMap.put("alberta","AB");
+        stateNameToCodeMap.put("british columbia","BC");
+        stateNameToCodeMap.put("manitoba","MB");
+        stateNameToCodeMap.put("new brunswick","NB");
+        stateNameToCodeMap.put("newfoundland and labrador","NF");
+        stateNameToCodeMap.put("northwest territories","NT");
+        stateNameToCodeMap.put("nova scotia","NS");
+        stateNameToCodeMap.put("nunavut","NU");
+        stateNameToCodeMap.put("ontario","ON");
+        stateNameToCodeMap.put("prince edward island","PE");
+        stateNameToCodeMap.put("quebec","QC");
+        stateNameToCodeMap.put("saskatchewan","SK");
+        stateNameToCodeMap.put("yukon territory","YT");
+
+        if (stateNameToCodeMap.containsKey(state)) {
+            address.setStateOrProvinceCode(stateNameToCodeMap.get(state));
+        } else {
+            address.setStateOrProvinceCode(bmsKitRequest.getState());
+        }
         address.setPostalCode(bmsKitRequest.getPostalCode());
         if("United States".equalsIgnoreCase(country)){
             address.setCountryCode("US");

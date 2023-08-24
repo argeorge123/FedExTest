@@ -89,4 +89,6 @@ public class BmsKitRequest {
     private String shippingOption;
     @Column(name = "SHIPPING_LABEL")
     private String shippingLabel;
+    @Column(name = "SHIPPING_ERROR")
+    private String shippingError;
 }

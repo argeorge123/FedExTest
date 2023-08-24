@@ -32,7 +32,7 @@ public class BMSFedexController {
     // Scheduler for creating the request!
 //   @Scheduled(cron="0 0 22 * * MON-FRI" )
     //@Scheduled(cron="*/10 * * * * MON-FRI")
-    @Scheduled(fixedDelay = 60000, initialDelay = 60000)
+    @Scheduled(fixedDelay = 10000, initialDelay = 60000)
     public void createKitRequest() {
         logger.info("Create shipment Initiated");
        bmsFedexService.createBmsKitRequest();
