@@ -548,7 +548,7 @@ public class BMSFedexService {
     private CustomerReferences setCustomerReferences(BmsKitRequest bmsKitRequest){
         CustomerReferences customerReferences = new CustomerReferences();
         customerReferences.setCustomerReferenceType("CUSTOMER_REFERENCE");
-        customerReferences.setValue(bmsKitRequest.getId()+ "," +bmsKitRequest.getShortTitle());
+        customerReferences.setValue("Kit Id: "+bmsKitRequest.getId()+ "- Study: " +bmsKitRequest.getShortTitle());
         return customerReferences;
     }
 
