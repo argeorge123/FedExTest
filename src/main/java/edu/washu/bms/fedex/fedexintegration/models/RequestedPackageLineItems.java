@@ -11,4 +11,5 @@ import java.util.List;
 public class RequestedPackageLineItems {
     private List<CustomerReferences> customerReferences;
     private Weight weight;
+    private int groupPackageCount;
 }

@@ -26,7 +26,7 @@ public class BmsKitRequest {
     @Column(name = "REQUESTED_DATE")
     private Date requestedDate;
     @Column(name = "KIT_COUNT")
-    private String kit_count;
+    private Integer kit_count;
     @Column(name = "SHORT_TITLE")
     private String shortTitle;
     @Column(name = "KIT_NEEDED_BY")

@@ -7,8 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class ShippingChargesPayment
+public class Payor
 {
-    private String paymentType;
-    private Payor payor;
+    private ResponsibleParty responsibleParty;
 }

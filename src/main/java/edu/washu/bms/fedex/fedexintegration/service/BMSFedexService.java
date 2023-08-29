@@ -137,6 +137,9 @@ public class BMSFedexService {
             JSONArray jsonArrayCustomerReferences = new JSONArray();
             JSONObject jsonObjectCustomerReferences = new JSONObject();
             JSONObject jsonObjectValue = new JSONObject();
+            JSONObject jsonObjectResponsibleParty = new JSONObject();
+            JSONObject jsonObjectPayor = new JSONObject();
+
 
             List<String> repostreetLines = bmsfedexModel.getRequestedShipment().getShipper().getRepoAddress().getStreetLines();
             // Create a JSONArray for streetLines
@@ -185,6 +188,7 @@ public class BMSFedexService {
                 }
                 jsonObjectRequestedPackageLineItems.put("weight", jsonObjectWeight);
                 jsonObjectRequestedPackageLineItems.put("customerReferences", jsonArrayCustomerReferences);
+                jsonObjectRequestedPackageLineItems.put("groupPackageCount", packageItem.getGroupPackageCount());
             }
 
             jsonObjectValue.put("value", bmsfedexModel.getAccountNumber());
@@ -197,7 +201,10 @@ public class BMSFedexService {
             recipientShipArray.add(jsonObjectRecipients);
             JSONArray requestedPackageLineItemsArray = new JSONArray();
             requestedPackageLineItemsArray.add(jsonObjectRequestedPackageLineItems);
+            jsonObjectResponsibleParty.put("accountNumber",jsonObjectValue);
+            jsonObjectPayor.put("responsibleParty",jsonObjectResponsibleParty);
             jsonObjectShippingChargesPayment.put("paymentType", bmsfedexModel.getRequestedShipment().getShippingChargesPayment().getPaymentType());
+            jsonObjectShippingChargesPayment.put("payor", jsonObjectPayor);
             jsonObjectLabelSpecification.put("labelStockType", bmsfedexModel.getRequestedShipment().getLabelSpecification().getLabelStockType());
             jsonObjectLabelSpecification.put("imageType", bmsfedexModel.getRequestedShipment().getLabelSpecification().getImageType());
             jsonObjectRequestedShipment.put("shipper", jsonObjectShipper);
@@ -526,10 +533,27 @@ public class BMSFedexService {
 
      private ShippingChargesPayment setShippingChargesPayment(BmsKitRequest bmsKitRequest){
          ShippingChargesPayment shippingChargesPayment = new ShippingChargesPayment();
-         shippingChargesPayment.setPaymentType("SENDER");
+         String shippingOption = bmsKitRequest.getShippingOption();
+             if ("Regular (within 10 business days from today)".equalsIgnoreCase(shippingOption)) {
+                 shippingChargesPayment.setPaymentType("SENDER");
+             } else if ("Expedited via FedEx (within 1-2 business days from today)".equalsIgnoreCase(shippingOption)) {
+                 shippingChargesPayment.setPaymentType("RECIPIENT");
+                 shippingChargesPayment.setPayor(setPayor(bmsKitRequest));
+             }
          return shippingChargesPayment;
      }
 
+     private Payor setPayor(BmsKitRequest bmsKitRequest){
+         Payor payor = new Payor();
+         payor.setResponsibleParty(setResponsibleParty(bmsKitRequest));
+        return payor;
+     }
+
+     private ResponsibleParty setResponsibleParty(BmsKitRequest bmsKitRequest){
+         ResponsibleParty responsibleParty = new ResponsibleParty();
+         responsibleParty.setAccountNumber(setAccountNumber(bmsKitRequest));
+         return responsibleParty;
+     }
 
      private LabelSpecification setLabelSpecification(BmsKitRequest bmsKitRequest){
          LabelSpecification labelSpecification = new LabelSpecification();
@@ -548,7 +572,7 @@ public class BMSFedexService {
     private CustomerReferences setCustomerReferences(BmsKitRequest bmsKitRequest){
         CustomerReferences customerReferences = new CustomerReferences();
         customerReferences.setCustomerReferenceType("CUSTOMER_REFERENCE");
-        customerReferences.setValue("Kit Id: "+bmsKitRequest.getId()+ "- Study: " +bmsKitRequest.getShortTitle());
+        customerReferences.setValue("Kit Id: "+bmsKitRequest.getId()+ " - Study: " +bmsKitRequest.getShortTitle());
         return customerReferences;
     }
 
@@ -602,6 +626,7 @@ public class BMSFedexService {
 
         //Setting the weight of the package
         requestedPackageLineItems.setWeight(setWeight(bmsKitRequest));
+        requestedPackageLineItems.setGroupPackageCount(bmsKitRequest.getKit_count());
         customerReferencesList.add(setCustomerReferences(bmsKitRequest));
         requestedPackageLineItems.setCustomerReferences(customerReferencesList);
         packageLineItemList.add(requestedPackageLineItems);
