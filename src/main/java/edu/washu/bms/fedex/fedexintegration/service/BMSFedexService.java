@@ -70,6 +70,8 @@ public class BMSFedexService {
     @Autowired
     private SiteRepository siteRepository;
     @Autowired
+    private BmsidFedexRepository bmsidFedexRepository;
+    @Autowired
     private RestTemplate restTemplate;
     @Autowired
     EmailService emailService;
@@ -312,10 +314,16 @@ public class BMSFedexService {
                 catch (Exception ex) {
                     logger.info("Create fedex request Failed with reason = {}", ex.getMessage());
                     String kStatus = "Create shipment failed";
-                    bmsFedexRepository.updateKitStatus(kStatus,bmsKitRequest.getId());
-                    String kError = "Create FedEx Shipment Failed. Please verify the shipping address";
-                    bmsFedexRepository.updateErrorStatus(kError,bmsKitRequest.getId());
-                    emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed. Please verify the shipping address for kit request ID: " +bmsKitRequest.getId() + ".Shipping address mentioned: " +bmsKitRequest.getRequesterAddress());
+                    bmsFedexRepository.updateKitStatus(kStatus, bmsKitRequest.getId());
+                    if ("Regular (within 10 business days from today)".equalsIgnoreCase(bmsKitRequest.getShippingOption())) {
+                        String kError = "Create FedEx Shipment Failed. Please verify the shipping address";
+                        bmsFedexRepository.updateErrorStatus(kError, bmsKitRequest.getId());
+                        emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed. Please verify the shipping address for kit request ID: " + bmsKitRequest.getId() + ".Shipping address mentioned: " + bmsKitRequest.getRequesterAddress());
+                    } else if ("Expedited via FedEx (within 1-2 business days from today)".equalsIgnoreCase(bmsKitRequest.getShippingOption())) {
+                        String kError = "Create FedEx Shipment Failed. Please verify the shipping address / FedEx account number";
+                        bmsFedexRepository.updateErrorStatus(kError, bmsKitRequest.getId());
+                        emailService.sendSimpleEmail("alliancedevelopment@email.wustl.edu", "Alliance-Fedex Integration Create Shipment Request failed", "Create Shipment Failed. Please verify the shipping address / FedEx account number for kit request ID: " + bmsKitRequest.getId() + ". Shipping address mentioned: " + bmsKitRequest.getRequesterAddress() + ". Shipping account number: " + bmsKitRequest.getRequesterFedexNo());
+                    }
                 }
             }
         }
@@ -339,7 +347,7 @@ public class BMSFedexService {
     // Gets all Open Requests in a time interval from BioMS DB
     private List<BmsKitRequest> findAllOPenKitRequests(){
         logger.info("Finding all WashU In process kit requests to process ");
-      List<BmsKitRequest> allOpenRequests= bmsFedexRepository.findAllOpenRequests(81,"In Process","Regular (within 10 business days from today)", "Expedited via FedEx (within 1-2 business days from today)");
+      List<BmsKitRequest> allOpenRequests= bmsFedexRepository.findAllOpenRequests(81,"In Process","Regular (within 10 business days from today)", "Expedited via FedEx (within 1-2 business days from today)", "United States");
       logger.info("Number of WashU In process kit = {}",allOpenRequests.size());
       return allOpenRequests;
     }
@@ -557,7 +565,7 @@ public class BMSFedexService {
 
      private LabelSpecification setLabelSpecification(BmsKitRequest bmsKitRequest){
          LabelSpecification labelSpecification = new LabelSpecification();
-         labelSpecification.setLabelStockType("PAPER_4X6");
+         labelSpecification.setLabelStockType("STOCK_4X6");
          labelSpecification.setImageType("PDF");
          return labelSpecification;
      }
@@ -572,7 +580,15 @@ public class BMSFedexService {
     private CustomerReferences setCustomerReferences(BmsKitRequest bmsKitRequest){
         CustomerReferences customerReferences = new CustomerReferences();
         customerReferences.setCustomerReferenceType("CUSTOMER_REFERENCE");
-        customerReferences.setValue("Kit Id: "+bmsKitRequest.getId()+ " - Study: " +bmsKitRequest.getShortTitle());
+        String shortTitle = bmsKitRequest.getShortTitle();
+        String kitName = this.getSpecCollKitName(bmsKitRequest.getSpecimenCollKitId());
+
+        String referenceValue = "Study_Kit: " + shortTitle + "_" + kitName;
+        if (referenceValue.length() > 40) {
+            referenceValue = referenceValue.substring(0, 40);
+        }
+
+        customerReferences.setValue(referenceValue);
         return customerReferences;
     }
 
@@ -644,5 +660,13 @@ public class BMSFedexService {
             accountNumber.setValue(bmsKitRequest.getRequesterFedexNo());
         }
         return accountNumber;
+    }
+
+    // Find Kit Name
+    private String getSpecCollKitName(long kitId) {
+        logger.debug("Get Kit name by id = {}",kitId);
+        logger.info(bmsidFedexRepository.findBmsKitById(kitId)+"----------->external kit type id");
+        return bmsidFedexRepository.findBmsKitById(kitId);
+
     }
 }
