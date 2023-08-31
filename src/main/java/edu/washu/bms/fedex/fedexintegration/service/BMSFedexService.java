@@ -583,7 +583,7 @@ public class BMSFedexService {
         String shortTitle = bmsKitRequest.getShortTitle();
         String kitName = this.getSpecCollKitName(bmsKitRequest.getSpecimenCollKitId());
 
-        String referenceValue = "Study_Kit: " + shortTitle + "_" + kitName;
+        String referenceValue = shortTitle + "_" + kitName;
         if (referenceValue.length() > 40) {
             referenceValue = referenceValue.substring(0, 40);
         }
